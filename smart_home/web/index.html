@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>智能管家 · E5 触控面板</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        /* 页面切换 Tab 样式 */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2a3a4a;
+            padding-bottom: 8px;
+        }
+        .tab-btn {
+            background: #1e2a3a;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #ccc;
+        }
+        .tab-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>桌面智能管家</h1>
+
+        <!-- Tab 切换按钮 -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="dashboard">仪表盘</button>
+            <button class="tab-btn" data-tab="control">控制中心</button>
+        </div>
+
+        <!-- 仪表盘页面 -->
+        <div id="dashboard" class="tab-content active">
+            <div class="cards">
+                <div class="card"><div class="label">温度</div><div id="temp" class="value">--°C</div></div>
+                <div class="card"><div class="label">湿度</div><div id="hum" class="value">--%</div></div>
+                <div class="card"><div class="label">光照</div><div id="lux" class="value">--lx</div></div>
+                <div class="card"><div class="label">人体</div><div id="human" class="value">--</div></div>
+                <div class="card"><div class="label">风扇</div><div id="fan" class="value">--</div></div>
+                <div class="card"><div class="label">E1 显示</div><div id="e1_mode" class="value">--</div></div>
+                <div class="card"><div class="label">场景</div><div id="scene" class="value">--</div></div>
+                <div class="card"><div class="label">系统状态</div><div id="idle" class="value">--</div></div>
+                <div class="card"><div class="label">网络</div><div id="network" class="value">--</div></div>
+            </div>
+            <div class="chart-card">
+                <h3>环境变化趋势（最近100次）</h3>
+                <canvas id="envChart" width="600" height="250"></canvas>
+            </div>
+            <div class="log">
+                <div class="alert"><strong>告警：</strong><span id="alert">等待更新...</span></div>
+                <details><summary>原始 JSON 数据</summary><pre id="raw">等待更新...</pre></details>
+            </div>
+        </div>
+
+        <!-- 控制中心页面 -->
+        <div id="control" class="tab-content">
+            <div class="control-group-block">
+                <h2>风扇控制</h2>
+                <div class="btn-row">
+                    <button id="fan_on" class="primary">开</button>
+                    <button id="fan_off" class="secondary">关</button>
+                    <button id="fan_mode_toggle" class="mode">风扇模式: 手动</button>
+                </div>
+                <div class="slider-row">
+                    <label>档位: <span id="fan_speed_val">20</span>%</label>
+                    <input type="range" id="fan_speed" min="0" max="100" step="5" value="20">
+                    <button id="fan_set">设置</button>
+                    <button id="fan_speed_up">+20</button>
+                    <button id="fan_speed_down">-20</button>
+                </div>
+            </div>
+            <div class="control-group-block">
+                <h2>E1 灯光</h2>
+                <div class="btn-row">
+                    <button id="light_mode_toggle" class="mode">灯光模式: 手动</button>
+                </div>
+                <div class="slider-row">
+                    <label>RGB 亮度: <span id="brightness_val">50</span>%</label>
+                    <input type="range" id="brightness_slider" min="0" max="100" value="50">
+                    <button id="brightness_set">设置</button>
+                    <button id="brightness_up">+10</button>
+                    <button id="brightness_down">-10</button>
+                </div>
+                <div class="btn-row">
+                    <button data-display="1">显示温度</button>
+                    <button data-display="2">显示湿度</button>
+                    <button data-display="3">显示光照</button>
+                    <button data-display="0">关闭显示</button>
+                </div>
+            </div>
+            <div class="control-group-block">
+                <h2>场景模式</h2>
+                <div class="btn-row">
+                    <button data-scene="0">工作</button>
+                    <button data-scene="1">休闲</button>
+                    <button data-scene="2">睡眠</button>
+                </div>
+            </div>
+            <div class="control-group-block">
+                <h2>语音助手</h2>
+                <div class="btn-row">
+                    <button id="voice_toggle">语音播报 开</button>
+                    <button id="speak_status">播报环境状态</button>
+                    <button id="start_voice">唤醒语音交互</button>
+                </div>
+                <div id="voice_history" class="voice-history">等待语音交互...</div>
+            </div>
+            <div class="control-group-block">
+                <h2>阈值与休眠</h2>
+                <div class="param-row">
+                    <label>温度阈值: <input id="th_temp" type="number" step="1">℃</label>
+                    <button id="set_temp">保存</button>
+                    <label>湿度阈值: <input id="th_hum" type="number" step="5">%</label>
+                    <button id="set_hum">保存</button>
+                    <label>光照阈值: <input id="th_light" type="number" step="50">lx</label>
+                    <button id="set_light">保存</button>
+                </div>
+                <div class="param-row">
+                    <label>无人休眠(分钟): <input id="sleep_time" type="number" min="1" max="10" step="1"></label>
+                    <button id="set_sleep">设置</button>
+                    <button id="reboot_btn" class="danger">系统重启</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内嵌 Tab 切换脚本（确保在任何情况下都有效） -->
+    <script>
+        (function() {
+            // 等待 DOM 完全加载后绑定 Tab 切换
+            function initTabs() {
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+                if (tabBtns.length === 0 || tabContents.length === 0) return;
+                tabBtns.forEach(btn => {
+                    btn.removeEventListener('click', handleTabClick);
+                    btn.addEventListener('click', handleTabClick);
+                });
+                function handleTabClick(e) {
+                    const targetId = this.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) content.classList.add('active');
+                    });
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTabs);
+            } else {
+                initTabs();
+            }
+        })();
+    </script>
+
+    <!-- 外部 refresh.js 负责数据更新和控制逻辑 -->
+    <script src="refresh.js"></script>
+</body>
+</html>

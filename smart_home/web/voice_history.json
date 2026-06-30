@@ -1,0 +1,10 @@
+[
+  {"role":"system","text":"开始语音交互，正在唤醒...","timestamp":1781595885},
+  {"role":"system","text":"语音采集完成，正在识别...","timestamp":1781595891},
+  {"role":"user","text":"今天几号？今天12月16号。","timestamp":1781595901},
+  {"role":"assistant","text":"今天是2026年06月16日","timestamp":1781595902},
+  {"role":"system","text":"开始语音交互，正在唤醒...","timestamp":1781595914},
+  {"role":"system","text":"语音采集完成，正在识别...","timestamp":1781595919},
+  {"role":"user","text":"现在几点","timestamp":1781595923},
+  {"role":"assistant","text":"现在时间 15点45分24秒","timestamp":1781595924}
+]

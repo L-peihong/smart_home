@@ -1,0 +1,7 @@
+{
+    "BASE_URL": "https://api.xiaomimimo.com/v1",
+    "API_KEY": "sk-cr6pes2dp6zl1cfmp14zsqyltlv1arpm289c297h1h2d8wt0",
+    "TTS_MODEL": "mimo-v2.5-tts",
+    "TTS_VOICE": "mimo_default",
+    "DEFAULT_CITY": "天津"
+}

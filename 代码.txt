@@ -1,0 +1,5393 @@
+E:\xiaomi\22\第五周任务存档\inc\e1.h
+#ifndef  E1_H
+#define  E1_H
+
+#include "i2c.h"
+#include "i2c_probe.h"
+#include <stdint.h>
+
+
+
+static const uint8_t disdata[22][2] ={
+		{0xF8,0x01},	// 0
+		{0x30,0x00},	// 1
+		{0xD8,0x02},	// 2
+		{0x78,0x02},	// 3
+		{0x30,0x03},	// 4
+		{0x68,0x03},	// 5
+		{0xE8,0x03},	// 6
+		{0x38,0x00},	// 7
+		{0xF8,0x03},	// 8
+		{0x78,0x03},	// 9
+		{0xB8,0x03},	// A
+		{0xE0,0x03},	// B
+		{0xC8,0x01},	// C
+		{0xF0,0x02},	// D
+		{0xC8,0x03},	// E
+		{0x88,0x03},	// F
+		{0x00,0x00},	// 不显示
+		{0xC1,0x03},	// 't'
+		{0xB3,0x03},	// 'H'
+		{0x40,0x00},	// 下划线 '_'
+		{0x00,0x02},	// 中划线 '-'
+		{0x00,0x04},	// 小数点 '.'
+};
+
+
+
+
+//#define PCA9685_ADDRESS_E1    0xC0			//0xC0 0xC2 0xC4 0xC6
+//#define HT16K33_ADDRESS_E1    0xE0			//0xE0 0xE2 0xE4 0xE6
+
+
+#define E1_PCA9685_SUBADR1       0x2
+#define E1_PCA9685_SUBADR2       0x3
+#define E1_PCA9685_SUBADR3       0x4
+#define E1_PCA9685_MODE1         0x0
+#define E1_PCA9685_PRESCALE      0xFE
+
+#define LED_R 1
+#define LED_G 0
+#define LED_B 2
+
+#define LED0_ON_L             0x6
+#define LED0_ON_H             0x7
+#define LED0_OFF_L            0x8
+#define LED0_OFF_H            0x9
+#define ALLLED_ON_L           0xFA
+#define ALLLED_ON_H           0xFB
+#define ALLLED_OFF_L          0xFC
+#define ALLLED_OFF_H          0xFD
+
+
+/* HT16K33  CMD */
+#define	SYSTEM_OFF				  0x20
+#define	SYSTEM_ON				  0x21
+#define	SET_INT_NONE		    	  0xA0
+#define	DISPLAY_ON			     	  0x81
+#define	DISPLAY_OFF			      	  0x80
+#define	DIMMING_SET_DEFAULT	  0xEF
+
+
+#define NODIS                 0x10
+
+
+
+/*设置LED灯的颜色*/
+typedef enum {
+	E1_COLOR_BLACK = 0,	// 黑色
+	E1_COLOR_RED,		// 红色
+	E1_COLOR_ORANGE,	// 橘色
+	E1_COLOR_YELLOW,	// 黄色
+	E1_COLOR_GREEN,	// 绿色
+	E1_COLOR_CYAN,		// 青色
+	E1_COLOR_BLUE,		// 蓝色
+	E1_COLOR_PURPLE,	// 紫色
+	E1_COLOR_WHITE		// 白色
+} e1_led_color_t;
+
+
+
+
+
+
+void I2c_e1_led_find(i2c_probe_target *list);
+void I2c_e1_led_init(int fd, unsigned char addr);
+
+void e1_led_off(int fd, unsigned char slave_address);
+void setPWM(int fd, unsigned char slave_address, unsigned char num, unsigned short on,unsigned short off);
+void e1_rgb_color_control(int fd,unsigned char addr,uint8_t red,uint8_t green,uint8_t blue);
+void e1_led_ctrl(int fd, unsigned char addr ,e1_led_color_t color, uint8_t brightness);
+
+void I2c_e1_led_init_all(int fd,i2c_probe_target *list);
+void e1_rgb_color_control_all(int fd,i2c_probe_target *list,uint8_t red,uint8_t green,uint8_t blue);
+void e1_led_ctrl_all(int fd, i2c_probe_target *list, e1_led_color_t color, uint8_t brightness);
+void e1_led_off_all(int fd, i2c_probe_target *list);
+
+
+
+void I2c_e1_tube_find(i2c_probe_target *list);
+void I2c_e1_tube_init(int fd, unsigned char addr);
+void ht16k33_e1_display_off(int fd, unsigned char addr);
+void ht16k33_e1_display_data(int fd, unsigned char addr,uint8_t bit,uint8_t data);
+
+void e1_digital_display(int fd, unsigned char addr,uint8_t dis1,uint8_t dis2,uint8_t dis3,uint8_t dis4);
+void e1_digital_display_off(int fd, unsigned char addr);
+void e1_digital_bit_display_char(int fd, unsigned char addr, uint8_t bit, uint8_t ch);
+
+void e1_digital_display_off_all(int fd,i2c_probe_target *list);
+void I2c_e1_tube_init_all(int fd,i2c_probe_target *list);
+#endif
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\e2.h
+#ifndef E2_H
+#define E2_H
+
+#include "i2c.h"
+#include "i2c_probe.h"
+#include <stdint.h>
+
+#define  E2_PCA9685_SUBADR1         0x2
+#define  E2_PCA9685_SUBADR2         0x3
+#define  E2_PCA9685_SUBADR3         0x4
+#define  E2_PCA9685_MODE1           0x0
+#define  E2_PCA9685_PRESCALE        0xFE
+
+#define  CN0_ON_L               0x6
+#define  CN0_ON_H               0x7
+#define  CN0_OFF_L              0x8
+#define  CN0_OFF_H              0x9
+
+#define  ALLCN_ON_L             0xFA
+#define  ALLCN_ON_H             0xFB
+#define  ALLCN_OFF_L            0xFC
+#define  ALLCN_OFF_H            0xFD
+
+void I2c_e2_find(i2c_probe_target *list);
+void I2c_e2_init(int fd, unsigned char addr);
+void e2_off(int fd, unsigned char slave_address);
+void e2_setPWM(int fd, unsigned char slave_address, unsigned char num, unsigned short on, unsigned short off);
+void e2_speed_control(int fd, unsigned char addr, unsigned char speed_level);  // 修正：添加空格
+
+void I2c_e2_init_all(int fd, i2c_probe_target *list);
+void e2_off_all(int fd, i2c_probe_target *list);
+void e2_speed_control_all(int fd, i2c_probe_target *list, unsigned char speed_level);
+
+#endif
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\e3.h
+#ifndef E3_H
+#define E3_H
+#include "i2c.h"
+#include "i2c_probe.h"
+#include <stdint.h>
+
+void I2c_e3_find(i2c_probe_target *list);
+void I2c_e3_init(int fd, unsigned char addr);
+void e3_set_position(int fd, unsigned char addr, char pos);
+
+unsigned char e3_get_status(int fd, unsigned char addr);
+unsigned char e3_get_position(int fd, unsigned char addr);
+
+void I2c_e3_init_all(int fd, i2c_probe_target *list);
+#endif 
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\i2c_probe.h
+#ifndef i2c_probe_h
+#define i2c_probe_h
+
+#define I2C_PROBE_STR_LEN 24
+#define MAX_DETECTED_ADDRS 4
+
+/**
+ * @brief I2C设备探测目标结构体
+ * 
+ * 该结构体用于定义I2C设备探测的输入参数和存储探测结果。
+ * 支持单设备和多设备探测，能够处理同一类型的多个设备。
+ */
+struct i2c_probe_target {
+    // ========== 输入字段 ==========
+    char name[I2C_PROBE_STR_LEN];                    // 设备的可读名称，如"S2_BRIGHTNESS"、"S7_HUMAN"等
+    const unsigned char *candidate_addrs;            // 指向候选I2C地址数组的指针，包含该设备类型的所有可能地址
+    const unsigned int candidate_addrs_len;          // 候选地址数组的长度，告诉探测函数需要检查多少个地址
+
+    // ========== 输出字段 ==========
+    char path[I2C_PROBE_STR_LEN];                    // 设备文件路径，如"/dev/i2c-1"，用于后续设备通信
+    int no;                                          // I2C总线编号，标识设备连接在哪条I2C总线上
+    unsigned char addr;                              // 第一个检测到的设备地址，用于向后兼容原有代码
+    
+    // ========== 多设备支持字段 ==========
+    unsigned char detected_addrs[MAX_DETECTED_ADDRS];// 存储所有检测到的设备地址数组，支持多个同类型设备
+    int detected_count;                              // 实际检测到的设备数量，范围：0到MAX_DETECTED_ADDRS
+};
+
+void i2c_probe(i2c_probe_target *list, const int len);
+int i2c_device_idx(const char *name);
+
+extern const i2c_probe_target I2C_PROBE_LIST[];
+extern const int I2C_PROBE_LIST_LEN;
+
+#endif
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\i2c.h
+#ifndef I2C
+#define I2C
+
+#include <stdio.h>
+#include <linux/i2c.h>
+#include <linux/i2c-dev.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <string.h>
+
+#define I2C_DEV_NAME_COMMON		"/dev/i2c-"
+#define I2C1_DEV_NAME			"/dev/i2c-1"
+#define I2C2_DEV_NAME			"/dev/i2c-2"
+#define I2C3_DEV_NAME			"/dev/i2c-3"
+#define I2C4_DEV_NAME			"/dev/i2c-4"
+#define I2C5_DEV_NAME			"/dev/i2c-5"
+#define I2C6_DEV_NAME			"/dev/i2c-6"
+
+#define I2C_DEV_NO_START		4
+#define I2C_DEV_NUM				6
+
+typedef struct{
+    int fd;
+    int no;
+    unsigned char addr;
+    unsigned char flag;
+} i2c_addr_def;
+
+int I2c_open(char *devname);
+void I2c_close(int fd);
+int I2c_detect(int fd, unsigned char *addrArray, int num, unsigned char *addr);
+int I2c_detect_all(int fd, unsigned char *addrArray, int num, unsigned char *detectedAddrs, int *detectedCount);
+int I2c_write_cmd(int fd, unsigned char addr, unsigned char reg);
+int I2c_write_reg(int fd, unsigned char addr, unsigned char reg, unsigned char value);
+int I2c_write_reg_datas(int fd, unsigned char addr, unsigned char reg, unsigned char *value, int num);
+int I2c_read_regs(int fd, unsigned char addr, unsigned char reg, unsigned char *val, int num);
+int I2c_read_regs_addr16(int fd, unsigned char addr, unsigned short reg, unsigned char *val, int num);
+
+#endif //I2C
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\s1.h
+#ifndef S1_H
+#define S1_H
+
+#include "i2c_probe.h"
+#include "i2c.h"
+#include <stdint.h>
+#include <stdbool.h>
+#include <time.h>      // 时间函数头文件
+
+#define	HT16K33_KEY_KS0		0x40
+#define	HT16K33_KEY_REG_NUM		6
+
+// 时间常量定义(单位:毫秒)
+#define DEBOUNCE_TIME   20    // 消抖时间
+#define LONG_PRESS_TIME 2000  // 长按判定时间(2秒)
+#define SHORT_PRESS_TIME 600  // 短按判定时间(0.6秒)
+
+
+#define SWN  0   //无按键按下
+#define SW1  1
+#define SW2  2
+#define SW3  3
+#define SW4  4
+#define SW5  5
+#define SW6  6
+#define SW7  7
+#define SW8  8
+#define SW9  9
+#define SWA  10  // *
+#define SW0  11  // 0
+#define SWC  12  // #
+
+// 按键状态机
+typedef enum {
+    KEY_NULL,       // 无按键状态
+    KEY_PRESSED,    // 按键按下待确认
+    KEY_HOLDING     // 按键已确认按下
+} KeyState;
+
+typedef struct {
+    unsigned char addr;
+    bool SW_long[13]={false};  // 按键长按标志位
+    bool SW_short[13]={false}; // 按键长按标志位
+    KeyState key_state = KEY_NULL;
+    uint8_t current_key = SWN;
+    uint64_t key_down_time = 0;           // 现在存储微秒时间戳
+    bool key_processed = false;
+}s1_key_process;
+
+extern s1_key_process *s1_key;
+
+void I2c_s1_find(i2c_probe_target *list);
+void I2c_s1_init(int fd, unsigned char addr);
+void I2c_s1_init_all(int fd, i2c_probe_target *list);
+unsigned char s1_key_scan(int fd,unsigned char addr);
+void process_keys(int fd,unsigned char addr,i2c_probe_target *list);
+
+#endif
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\s2.h
+#ifndef S2_H
+#define S2_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include "i2c.h"
+#include "i2c_probe.h"
+
+
+       
+void I2c_s2_find(i2c_probe_target *list);
+
+float s2_read_bh1750_value(int fd,unsigned char addr);
+void I2c_s2_init(int fd, unsigned char addr);
+void I2c_s2_init_all(int fd, i2c_probe_target *list);
+#endif
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\s7.h
+#ifndef S7_H
+#define S7_H
+
+#include "i2c_probe.h"
+#include "i2c.h"
+
+#define PCA9557_POLARITY_INVERSION_REG  0x02
+#define PCA9557_CONFIG_REG              0x03
+ 
+#define POLARITY_INVERSION_DEFAULT      0xF0
+#define CONFIG_DEFAULT                  0xFF
+
+void I2c_s7_find(i2c_probe_target *list);
+void I2c_s7_init(int fd, unsigned char addr);
+void I2c_s7_init_all(int fd, i2c_probe_target *list);
+unsigned char I2c_human_detected(int fd, unsigned char addr);
+void I2c_human_detected_all(int fd, i2c_probe_target *list);
+#endif
+
+
+
+E:\xiaomi\22\第五周任务存档\inc\s8.h
+#ifndef S8_H
+#define S8_H
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include "i2c.h"
+#include "i2c_probe.h"
+
+typedef struct
+{
+	  float temperature;
+	  float humidity;
+}s8_para;	
+
+void I2c_s8_find(i2c_probe_target *list);
+s8_para read_sht3x(int fd,unsigned char addr);
+void read_sht3x_all(int fd, i2c_probe_target *list);
+
+#endif
+
+
+
+E:\xiaomi\22\第五周任务存档\src\e1.cpp
+#include "e1.h"
+
+
+int led_idx=-1;
+int tube_idx=-1;
+/*********************************************************************************************************
+函数名:     I2c_e1_led_find
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/10
+调用描述:   检测led设备是否存在，存在则显示led设备地址个数与标号
+**********************************************************************************************************/
+void I2c_e1_led_find(i2c_probe_target *list)
+{
+	led_idx = i2c_device_idx("E1_LIGHT");
+	if((led_idx<0)||(list[led_idx].no<0)||(!list[led_idx].detected_count)){
+		perror("未探测到led设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到E1_led设备个数为:%d\n",list[led_idx].detected_count);
+		for(int i=0;i<list[led_idx].detected_count;i++){
+			printf("检测到的一个E1_led地址为0x%02x,标号为%d\n",list[led_idx].detected_addrs[i],i);
+		}
+	}
+	
+}
+
+/*********************************************************************************************************
+函数名:	    e1_led_off
+入口参数:   fd  i2c文件描述符		slave_address 接收信息的pac9685地址  
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   熄灭led
+**********************************************************************************************************/
+void e1_led_off(int fd, unsigned char slave_address)
+{
+	I2c_write_reg(fd, slave_address, ALLLED_ON_L, 0);
+	I2c_write_reg(fd, slave_address, ALLLED_ON_H, 0);
+	I2c_write_reg(fd, slave_address, ALLLED_OFF_L, 0);
+	I2c_write_reg(fd, slave_address, ALLLED_OFF_H, 0);//有一个版本写的是0x10，个人认为是0
+}
+
+/*********************************************************************************************************
+函数名:	    e1_led_off_all
+入口参数:   fd  i2c文件描述符		list  设备表地址 
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/10
+调用描述:   熄灭所有E1的led
+**********************************************************************************************************/
+void e1_led_off_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[led_idx].detected_count;i++){
+		e1_led_off(fd,list[led_idx].detected_addrs[i]);
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    setPWM
+入口参数:   fd  i2c文件描述符		slave_address 接收信息的pac9685地址
+	    num PCA9685对应的输出口	on输出高电平使能计数值		off输出高电平关闭计数值 
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   通过on与off的值调节pwm占空比
+**********************************************************************************************************/
+void setPWM(int fd, unsigned char slave_address, unsigned char num, unsigned short on, unsigned short off)
+{
+	I2c_write_reg(fd, slave_address, LED0_ON_L + 4 * num, on);
+	I2c_write_reg(fd, slave_address, LED0_ON_H + 4 * num, on >> 8);
+	I2c_write_reg(fd, slave_address, LED0_OFF_L + 4 * num, off);
+	I2c_write_reg(fd, slave_address, LED0_OFF_H + 4 * num, off >> 8);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_e1_led_init
+入口参数:   fd  i2c文件描述符		addr led的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   初始化led并熄灭
+**********************************************************************************************************/
+void I2c_e1_led_init(int fd, unsigned char addr)
+{
+	I2c_write_reg(fd, addr, E1_PCA9685_MODE1, 0x00);
+	e1_led_off(fd, addr);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_e1_led_init_all
+入口参数:   fd  i2c文件描述符		list  设备表地址		
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/10
+调用描述:   初始化所有E1的led并熄灭
+**********************************************************************************************************/
+void I2c_e1_led_init_all(int fd,i2c_probe_target *list)
+{
+	
+	for(int i=0;i<list[led_idx].detected_count;i++){
+		I2c_e1_led_init(fd,list[led_idx].detected_addrs[i]);
+	}
+}
+
+
+/*********************************************************************************************************
+函数名:	    e1_rgb_color_control
+入口参数:   fd   i2c文件描述符		addr led的i2c地址
+	    red  红色占比	        green 绿色占比	       blue 蓝色占比
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   通过调节led的红色、绿色和蓝色的占比使led显示不同的颜色
+**********************************************************************************************************/
+void e1_rgb_color_control(int fd,unsigned char addr,uint8_t red,uint8_t green,uint8_t blue)
+{
+	unsigned short on, off;
+    	on = 0x0f;
+
+	off = on + red * 0x10;
+	setPWM(fd, addr, LED_R, on, off);    //设置红色
+
+	off = on + green * 0x10;
+	setPWM(fd, addr, LED_G, on, off);    //设置绿色
+
+	off = on + blue * 0x10;
+	setPWM(fd, addr, LED_B, on, off);    //设置蓝色
+}
+
+/*********************************************************************************************************
+函数名:	    e1_rgb_color_control_all
+入口参数:   fd  i2c文件描述符		list  设备表地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/10
+调用描述:   使所有E1的led呈现同一颜色
+**********************************************************************************************************/
+void e1_rgb_color_control_all(int fd,i2c_probe_target *list,uint8_t red,uint8_t green,uint8_t blue)
+{
+	for(int i=0;i<list[led_idx].detected_count;i++){
+		e1_rgb_color_control(fd,list[led_idx].detected_addrs[i],red,green,blue);
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    e1_led_ctrl
+入口参数:   fd  i2c文件描述符		addr led的i2c地址
+	    color  颜色种类		brightness  光照强度
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   使led显示不同的颜色与光照强度
+**********************************************************************************************************/
+void e1_led_ctrl(int fd, unsigned char addr, e1_led_color_t color, uint8_t brightness)
+{
+	uint8_t red = 0, green = 0, blue = 0;
+
+	switch (color)
+	{
+		case E1_COLOR_BLACK:
+		{
+			red = 0;
+			green = 0;
+			blue = 0;
+			break;
+		}
+		case E1_COLOR_RED:
+		{
+			red = 255;
+			green = 0;
+			blue = 0;
+			break;
+		}
+		case E1_COLOR_ORANGE:
+		{
+			red = 255;
+			green = 128;
+			blue = 0;
+			break;
+		}
+		case E1_COLOR_YELLOW:
+		{
+			red = 255;
+			green = 255;
+			blue = 0;
+			break;
+		}
+		case E1_COLOR_GREEN:
+		{
+			red = 0;
+			green = 255;
+			blue = 0;
+			break;
+		}
+		case E1_COLOR_CYAN:
+		{
+			red = 0;
+			green = 255;
+			blue = 255;
+			break;
+		}
+		case E1_COLOR_BLUE:
+		{
+			red = 0;
+			green = 0;
+			blue = 255;
+			break;
+		}
+		case E1_COLOR_PURPLE:
+		{
+			red = 128;
+			green = 0;
+			blue = 128;
+			break;
+		}
+		case E1_COLOR_WHITE:
+		{
+			red = 255;
+			green = 255;
+			blue = 255;
+			break;
+		}
+		
+		default:
+			break;
+	}
+
+	if (brightness > 100)
+		brightness = 100;
+
+	if (brightness == 0)
+	{
+		red = 0;
+		green = 0;
+		blue = 0;
+	}
+	else
+	{
+		red = (red * brightness) / 100;
+		green = (green * brightness) / 100;
+		blue = (blue * brightness) / 100;
+	}
+
+	e1_rgb_color_control(fd, addr, red, green, blue);
+}
+
+/*********************************************************************************************************
+函数名:	    e1_led_ctrl_all
+入口参数:   fd  i2c文件描述符		list  设备表地址
+	    color  颜色种类		brightness  光照强度
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/10
+调用描述:   设定所有E1的led的颜色与光照强度
+**********************************************************************************************************/
+void e1_led_ctrl_all(int fd, i2c_probe_target *list, e1_led_color_t color, uint8_t brightness)
+{
+	for(int i=0;i<list[led_idx].detected_count;i++){
+		e1_led_ctrl(fd,list[led_idx].detected_addrs[i],color,brightness);
+	}
+}
+
+
+/*********************************************************************************************************
+函数名:     I2c_e1_tube_find
+入口参数:   设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/10
+调用描述:   检测数码管设备是否存在，存在则显示数码管设备地址个数与标号
+**********************************************************************************************************/
+void I2c_e1_tube_find(i2c_probe_target *list)
+{
+	tube_idx = i2c_device_idx("E1_DISPLAY");
+	if((tube_idx<0)||(list[tube_idx].no<0)||(!list[tube_idx].detected_count)){
+		perror("未探测到数码管设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到E1_tube设备个数为:%d\n",list[tube_idx].detected_count);
+		for(int i=0;i<list[tube_idx].detected_count;i++){
+			printf("检测到的一个E1_tube地址为0x%02x,标号为%d\n",list[tube_idx].detected_addrs[i],i);
+		}
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    ht16k33_e1_display_off
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   熄灭数码管
+**********************************************************************************************************/
+void ht16k33_e1_display_off(int fd, unsigned char addr)
+{
+	I2c_write_reg(fd,addr,0x02,0x00);
+	I2c_write_reg(fd,addr,0x03,0x00);
+	I2c_write_reg(fd,addr,0x04,0x00);
+	I2c_write_reg(fd,addr,0x05,0x00);
+	I2c_write_reg(fd,addr,0x06,0x00);
+	I2c_write_reg(fd,addr,0x07,0x00);
+	I2c_write_reg(fd,addr,0x08,0x00);
+	I2c_write_reg(fd,addr,0x09,0x00);
+	I2c_write_cmd(fd,addr,DISPLAY_ON);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_e1_tube_init
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   初始化数码管并熄灭
+**********************************************************************************************************/
+void I2c_e1_tube_init(int fd, unsigned char addr)
+{
+	I2c_write_cmd(fd,addr,SYSTEM_ON);
+	ht16k33_e1_display_off(fd,addr);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_e1_tube_init_all
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/10
+调用描述:   初始化所有E1的数码管并熄灭
+**********************************************************************************************************/
+void I2c_e1_tube_init_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[tube_idx].detected_count;i++){
+		I2c_e1_tube_init(fd,list[tube_idx].detected_addrs[i]);
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    ht16k33_e1_display_data
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+	    bit 数码管位置		data 数码管显示的数据
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   数码管对应位置显示数据
+**********************************************************************************************************/
+void ht16k33_e1_display_data(int fd,unsigned char addr,uint8_t bit,uint8_t data)
+{
+	switch(bit)
+	{
+		case  1:
+		I2c_write_reg(fd,addr,0x02,disdata[data][0]);
+		I2c_write_reg(fd,addr,0x03,disdata[data][1]);
+
+		break;
+
+		case  2:
+		I2c_write_reg(fd,addr,0x04,disdata[data][0]);
+		I2c_write_reg(fd,addr,0x05,disdata[data][1]);
+		break;
+
+		case 3:
+		I2c_write_reg(fd,addr,0x06,disdata[data][0]);
+		I2c_write_reg(fd,addr,0x07,disdata[data][1]);
+		break;
+
+		case 4:
+		I2c_write_reg(fd,addr,0x08,disdata[data][0]);
+		I2c_write_reg(fd,addr,0x09,disdata[data][1]);
+		break;
+
+	}
+	I2c_write_cmd(fd,addr,DISPLAY_ON);
+}
+
+/*********************************************************************************************************
+函数名:	    e1_digital_display
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+	    dis1 数码管第一位数据  	dis2 数码管第二位数据	dis3 数码管第三位数据	dis4 数码管第四位数据
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   四位数码管显示不同数据
+**********************************************************************************************************/
+void e1_digital_display(int fd,unsigned char addr,uint8_t dis1,uint8_t dis2,uint8_t dis3,uint8_t dis4)
+{
+	ht16k33_e1_display_data(fd,addr,1,dis1);
+	ht16k33_e1_display_data(fd,addr,2,dis2);
+	ht16k33_e1_display_data(fd,addr,3,dis3);
+	ht16k33_e1_display_data(fd,addr,4,dis4);
+}
+
+/*********************************************************************************************************
+函数名:	    e1_digital_display_off
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   熄灭数码管
+**********************************************************************************************************/
+void e1_digital_display_off(int fd, unsigned char addr)
+{
+	ht16k33_e1_display_off(fd,addr);
+}
+
+/*********************************************************************************************************
+函数名:	    e1_digital_display_off_all
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   熄灭所有E1的数码管
+**********************************************************************************************************/
+void e1_digital_display_off_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[tube_idx].detected_count;i++){
+		e1_digital_display_off(fd,list[tube_idx].detected_addrs[i]);
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    e1_digital_bit_display_char
+入口参数:   fd  i2c文件描述符		addr 数码管的i2c地址
+	    bit 数码管位置		ch 数码管显示的数据
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/22
+调用描述:   数码管对应位置显示数据
+**********************************************************************************************************/
+void e1_digital_bit_display_char(int fd,unsigned char addr, uint8_t bit, uint8_t ch)
+{
+	if (ch >= '0' && ch <= '9')
+	{
+		ht16k33_e1_display_data(fd, addr, (bit + 1), ch - '0');
+	}
+	else if (ch >= 'A' && ch <= 'F')
+	{
+		ht16k33_e1_display_data(fd, addr, (bit + 1), ch - 'A' + 10);
+	}
+	else
+	{
+		switch (ch)
+		{
+			case '-':
+			{
+				I2c_write_reg(fd, addr, ((bit * 2) + 2),disdata[20][0]);
+				I2c_write_reg(fd, addr, ((bit * 2) + 3),disdata[20][1]);        
+				I2c_write_cmd(fd, addr,DISPLAY_ON);
+				break;
+			}
+			case '_':
+			{
+				I2c_write_reg(fd, addr, ((bit * 2) + 2), disdata[19][0]);
+				I2c_write_reg(fd, addr, ((bit * 2) + 3), disdata[19][1]);
+				I2c_write_cmd(fd, addr,DISPLAY_ON);
+			}
+			case '.':
+			{
+				I2c_write_reg(fd, addr,((bit * 2) + 2), disdata[21][0]);
+				I2c_write_reg(fd, addr,((bit * 2) + 3), disdata[21][1]);
+				I2c_write_cmd(fd, addr,DISPLAY_ON);
+			}
+			case ' ':
+			{
+				I2c_write_reg(fd, addr, ((bit * 2) + 2), disdata[16][0]);
+				I2c_write_reg(fd, addr, ((bit * 2) + 3), disdata[16][1]);
+				I2c_write_cmd(fd, addr,DISPLAY_ON);
+				break;
+			}
+			default:
+				break;
+		}
+	}
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\e2.cpp
+#include "e2.h"
+
+
+int fan_idx=-1;
+/*********************************************************************************************************
+函数名:     I2c_e2_find
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/11
+调用描述:   检测风扇设备是否存在，存在则显示风扇设备地址个数与标号
+**********************************************************************************************************/
+void I2c_e2_find(i2c_probe_target *list)
+{
+	fan_idx = i2c_device_idx("E2_FAN");
+	if((fan_idx<0)||(list[fan_idx].no<0)||(!list[fan_idx].detected_count)){
+		perror("未探测到E2设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到E2设备个数为:%d\n",list[fan_idx].detected_count);
+		for(int i=0;i<list[fan_idx].detected_count;i++){
+			printf("检测到的一个E2地址为0x%02x,标号为%d\n",list[fan_idx].detected_addrs[i],i);
+		}
+	}
+	
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_e2_init_all
+入口参数:   fd  i2c文件描述符		list  设备表地址		
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/11
+调用描述:   初始化所有E2
+**********************************************************************************************************/
+void I2c_e2_init_all(int fd,i2c_probe_target *list)
+{
+	for(int i=0;i<list[fan_idx].detected_count;i++){
+		I2c_e2_init(fd,list[fan_idx].detected_addrs[i]);
+	}
+}
+
+
+/*********************************************************************************************************
+函数名:	    I2c_e2_init
+入口参数:   fd  i2c文件描述符		addr 风扇的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/27
+调用描述:   初始化风扇并设置转速为0
+**********************************************************************************************************/
+void I2c_e2_init(int fd, unsigned char addr)
+{
+	I2c_write_reg(fd, addr, E2_PCA9685_MODE1, 0x00);
+	e2_off(fd, addr);
+}
+
+/*********************************************************************************************************
+函数名:	    e2_off_all
+入口参数:   fd  i2c文件描述符		list  设备表地址 
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/11
+调用描述:   关闭所有E2风扇
+**********************************************************************************************************/
+void e2_off_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[fan_idx].detected_count;i++){
+		e2_off(fd,list[fan_idx].detected_addrs[i]);
+	}
+}
+
+
+/*********************************************************************************************************
+函数名:	    e2_off
+入口参数:   fd  i2c文件描述符		slave_address 接收信息的pac9685地址  
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/27
+调用描述:   关闭风扇
+**********************************************************************************************************/
+void e2_off(int fd, unsigned char slave_address)
+{
+	I2c_write_reg(fd, slave_address, ALLCN_ON_L, 0);
+	I2c_write_reg(fd, slave_address, ALLCN_ON_H, 0);
+	I2c_write_reg(fd, slave_address, ALLCN_OFF_L, 0);
+	I2c_write_reg(fd, slave_address, ALLCN_OFF_H, 0);//有一个版本写的是0x10，个人认为是0
+}
+
+/*********************************************************************************************************
+函数名:	    setPWM
+入口参数:   fd  i2c文件描述符		slave_address 接收信息的pac9685地址
+	    num PCA9685对应的输出口	on输出高电平使能计数值		off输出高电平关闭计数值	 
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/27
+调用描述:   通过on与off的值调节pwm占空比
+**********************************************************************************************************/
+void e2_setPWM(int fd, unsigned char slave_address, unsigned char num, unsigned short on, unsigned short off)
+{
+	I2c_write_reg(fd, slave_address, CN0_ON_L + 4 * num, on);
+	I2c_write_reg(fd, slave_address, CN0_ON_H + 4 * num, on >> 8);
+	I2c_write_reg(fd, slave_address, CN0_OFF_L + 4 * num, off);
+	I2c_write_reg(fd, slave_address, CN0_OFF_H + 4 * num, off >> 8);
+}
+
+/*********************************************************************************************************
+函数名:	    e2_speed_control
+入口参数:   fd  i2c文件描述符		addr 风扇的i2c地址
+	    speed_level 风扇转速，最大为100
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/27
+调用描述:   设置风扇的转速，最大为100，超过100则为100
+**********************************************************************************************************/
+void e2_speed_control(int fd,unsigned char addr,unsigned char speed_level)
+{
+	uint16_t off,on;
+	if(speed_level > 100)
+	{
+		speed_level = 100;
+	}
+	on = 0x00;
+	off = on + 0xfff*speed_level/100;
+	e2_setPWM(fd, addr, 0, on, off);
+}
+
+/*********************************************************************************************************
+函数名:	    e2_speed_control_all
+入口参数:   fd  i2c文件描述符		list  设备表地址
+			speed_level 风扇转速，最大为100
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/7/27
+调用描述:   将所有风扇设置为同一转速，最大为100，超过100则为100
+**********************************************************************************************************/
+void e2_speed_control_all(int fd,i2c_probe_target *list,unsigned char speed_level)
+{
+	for(int i=0;i<list[fan_idx].detected_count;i++){
+		e2_speed_control(fd,list[fan_idx].detected_addrs[i],speed_level);
+	}
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\e3.cpp
+#include "e3.h"
+
+int motor_idx=-1;
+
+/*********************************************************************************************************
+函数名:     I2c_e3_find
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/11
+调用描述:   检测E3设备是否存在，存在则显示E3设备地址个数与标号
+**********************************************************************************************************/
+void I2c_e3_find(i2c_probe_target *list)
+{
+	motor_idx = i2c_device_idx("E3_MOTOR");
+	if((motor_idx<0)||(list[motor_idx].no<0)||(!list[motor_idx].detected_count)){
+		perror("未探测到E3设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到E3设备个数为:%d\n",list[motor_idx].detected_count);
+		for(int i=0;i<list[motor_idx].detected_count;i++){
+			printf("检测到的一个E3地址为0x%02x,标号为%d\n",list[motor_idx].detected_addrs[i],i);
+		}
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_e3_init
+入口参数:   fd  i2c文件描述符		addr 窗帘的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/2
+调用描述:   初始化窗帘并移动到最左边
+**********************************************************************************************************/
+void I2c_e3_init(int fd, unsigned char addr)
+{
+	I2c_write_reg(fd, addr, 0x03, 0);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_e3_init_all
+入口参数:   fd  i2c文件描述符		list 设备表地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/11
+调用描述:   初始化窗帘并移动到最左边
+**********************************************************************************************************/
+void I2c_e3_init_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[motor_idx].detected_count;i++){
+		I2c_e3_init(fd,list[motor_idx].detected_addrs[i]);
+	}
+}
+
+/*********************************************************************************************************
+函数名:     e3_set_position
+入口参数:   fd  i2c文件描述符		addr 窗帘的i2c地址
+	    re_pos 位置百分比(0-100)
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/2
+调用描述:   设置窗帘电机位置
+**********************************************************************************************************/
+void e3_set_position(int fd, unsigned char addr, char pos)
+{
+	I2c_write_reg(fd, addr, 0x03, pos);
+}
+
+
+/*********************************************************************************************************
+函数名:     e3_get_status
+入口参数:   fd  i2c文件描述符		addr 窗帘的i2c地址
+出口参数:   无 
+返回值:     E3 电机运动状态。0：停止中，1：运动中
+作者:       ljy
+日期:       2025/8/2
+调用描述:   获取窗帘电机状态
+**********************************************************************************************************/
+unsigned char e3_get_status(int fd, unsigned char addr)
+{
+	uint8_t re_sta = 0;
+	I2c_read_regs(fd, addr, 0x01, &re_sta, 1);
+	return re_sta;
+}
+
+/*********************************************************************************************************
+函数名:     e3_get_status
+入口参数:   fd  i2c文件描述符		addr 窗帘的i2c地址
+出口参数:   无 
+返回值:     E3 电机运动状态,0~100。
+作者:       ljy
+日期:       2025/8/2
+调用描述:   获取窗帘电机位置
+**********************************************************************************************************/
+unsigned char e3_get_position(int fd, unsigned char addr)
+{
+	uint8_t re_pos = 0;
+	I2c_read_regs(fd, addr, 0x02, &re_pos, 1);
+	return re_pos;
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\i2c_probe.cpp
+#include "i2c_probe.h"
+#include "i2c.h"
+
+#include <stdio.h>
+#include <linux/i2c.h>
+#include <linux/i2c-dev.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <string.h>
+#include <memory.h>
+
+static const unsigned char ADDR_S1[]           = {0x74,0x75,0x76,0x77};
+static const unsigned char ADDR_S2_BH[]        = {0x46>>1, 0xB8>>1};                    // light intensity sensor
+static const unsigned char ADDR_S2_ICM[]       = {0xD0>>1, 0xD2>>1};                    // inertial sensor
+static const unsigned char ADDR_S3_MIC[]       = {0x34>>1};
+static const unsigned char ADDR_S5_NFC[]       = {0x50>>1, 0x52>>1, 0x54>>1, 0x56>>1};
+static const unsigned char ADDR_S6_UTRASONIC[] = {0x58>>1, 0x5A>>1, 0x5C>>1, 0x5E>>1};
+static const unsigned char ADDR_S7_HUMAN[]     = {0x30>>1, 0x32>>1, 0x34>>1, 0x36>>1};
+static const unsigned char ADDR_S8_SHT[]       = {0x88>>1, 0x8A>>1};                    // temperature & humidity sensor
+static const unsigned char ADDR_E1_LIGHT[]     = {0xC0>>1, 0xC2>>1, 0xC4>>1, 0xC6>>1};
+static const unsigned char ADDR_E1_DISPLAY[]   = {0xE0>>1, 0xE2>>1, 0xE4>>1, 0xE6>>1};
+static const unsigned char ADDR_E2_FAN[]       = {0xC8>>1, 0xCA>>1, 0xCC>>1, 0xCE>>1};
+static const unsigned char ADDR_E3_MOTOR[]     = {0x38>>1, 0x3A>>1, 0x3C>>1, 0x3E>>1};
+
+#define __FILL(n) n, sizeof(n), {}, -1, 0, {}, 0
+
+const i2c_probe_target I2C_PROBE_LIST[] = {
+    { "S1_KEYS",           __FILL(ADDR_S1) },
+    { "S2_BRIGHTNESS",     __FILL(ADDR_S2_BH) },
+    { "S2_INERTIAL",       __FILL(ADDR_S2_ICM) },
+    { "S5_NFC",            __FILL(ADDR_S5_NFC) },
+    { "S6_UTRASONIC",      __FILL(ADDR_S6_UTRASONIC) },  
+    { "S7_HUMAN",          __FILL(ADDR_S7_HUMAN) },
+    { "S8_TEMP&HUMIDITY",  __FILL(ADDR_S8_SHT) },
+    { "E1_LIGHT",          __FILL(ADDR_E1_LIGHT) },
+    { "E1_DISPLAY",        __FILL(ADDR_E1_DISPLAY) },
+    { "E2_FAN",            __FILL(ADDR_E2_FAN) },
+    { "E3_MOTOR",          __FILL(ADDR_E3_MOTOR) },      
+};
+
+#undef __FILL
+
+const int I2C_PROBE_LIST_LEN = sizeof(I2C_PROBE_LIST) / sizeof(i2c_probe_target);
+
+//#define DEBUG
+
+#ifdef DEBUG
+#define debug(...) printf(__VA_ARGS__)
+#else
+#define debug(...)
+#endif
+
+void check_e1_e2_addr(void){
+	int fd = I2c_open("/dev/i2c-5");
+	if (ioctl(fd, I2C_SLAVE_FORCE, 0x70) >= 0){
+		I2c_write_reg(fd, 0x70, 0x00, 0x00);
+        I2c_write_reg(fd, 0x71, 0x00, 0x00);
+        I2c_write_reg(fd, 0x72, 0x00, 0x00);
+        I2c_write_reg(fd, 0x73, 0x00, 0x00);
+	}
+	I2c_close(fd);
+	
+}
+
+void i2c_probe(i2c_probe_target *list, const int len) {
+	check_e1_e2_addr();
+    char dev_name[I2C_PROBE_STR_LEN];
+
+    debug("i2c_probe: len = %d\n", len);
+
+    for (int i = I2C_DEV_NO_START; i < (I2C_DEV_NO_START + I2C_DEV_NUM); ++i) {
+        memset(dev_name, 0, sizeof(dev_name));
+        sprintf(dev_name, "%s%d", I2C_DEV_NAME_COMMON, i);
+
+        int fd = I2c_open(dev_name);
+
+        if (fd > 0) {
+            debug("open %s\n", dev_name);
+            for (int j = 0;j < len;j++) {
+                i2c_probe_target *tgt = list + j;
+
+                debug("%s: %s, on", dev_name, tgt->name);
+                for (int j = 0;j < tgt->candidate_addrs_len;j++){
+                    debug(" %#02x", tgt->candidate_addrs[j]);
+                }
+                debug(" ");
+
+                unsigned char detectedAddrs[MAX_DETECTED_ADDRS];
+                int detectedCount;
+                int rtn = I2c_detect_all(
+                    fd, 
+                    (unsigned char*)tgt->candidate_addrs,
+                    tgt->candidate_addrs_len,
+                    detectedAddrs,
+                    &detectedCount
+                );
+                if (rtn >= 0 && detectedCount > 0) {
+                    // device(s) found
+                    memset(tgt->path, 0, I2C_PROBE_STR_LEN);
+                    strncpy(tgt->path, dev_name, I2C_PROBE_STR_LEN-1);
+                    tgt->addr = detectedAddrs[0];  // keep first address for compatibility
+                    tgt->no = i;
+                    
+                    // store all detected addresses
+                    tgt->detected_count = detectedCount;
+                    for (int k = 0; k < detectedCount && k < MAX_DETECTED_ADDRS; k++) {
+                        tgt->detected_addrs[k] = detectedAddrs[k];
+                    }
+                    debug("found %d device(s) at addr", detectedCount);
+                    for (int k = 0; k < detectedCount; k++) {
+                        debug(" %x", detectedAddrs[k]);
+                    }
+                    debug("\n");
+                } else {
+                    debug("addr not found \n");
+                }
+            }
+            I2c_close(fd);
+        }
+    }
+}
+
+
+
+/**
+ * @brief 根据设备名称在I2C_PROBE_LIST中查找设备索引
+ * 
+ * 该函数在全局的I2C_PROBE_LIST数组中搜索指定名称的设备。
+ * 它通过逐字符比较的方式来匹配设备名称。
+ * 
+ * 工作原理：
+ * 1. 遍历I2C_PROBE_LIST数组中的每个设备
+ * 2. 对每个设备，逐字符比较设备名称和输入的名称
+ * 3. 如果找到完全匹配的设备名称，返回该设备在数组中的索引
+ * 4. 如果遍历完所有设备都没有找到匹配的，返回-1表示未找到
+ * 
+ * @param name 要搜索的设备名称字符串（例如："S2_BRIGHTNESS"表示光强传感器）
+ * @return int 如果找到设备返回其在I2C_PROBE_LIST中的索引（0到I2C_PROBE_LIST_LEN-1），
+ *             如果未找到返回-1
+ * 
+ * 使用示例：
+ *   int idx = i2c_device_idx("S2_BRIGHTNESS");  // 查找光强传感器
+ *   if (idx >= 0) {
+ *       // 设备找到，可以通过list[idx]访问设备信息
+ *       printf("找到设备，索引为：%d\n", idx);
+ *   } else {
+ *       // 设备未找到
+ *       printf("未找到指定设备\n");
+ *   }
+ * 
+ * 注意事项：
+ * - 函数进行的是精确匹配，设备名称必须完全一致
+ * - 比较过程遇到输入名称的结尾字符'\0'时会停止
+ * - 该函数是线性搜索，时间复杂度为O(n)
+ */
+int i2c_device_idx(const char *name) {
+    // 遍历所有预定义的I2C设备
+    for(int i = 0;i < I2C_PROBE_LIST_LEN;i++) {
+        const char *devname = I2C_PROBE_LIST[i].name;  // 获取当前设备的名称
+        bool match = true;  // 标记是否匹配
+        
+        // 逐字符比较设备名称
+        for(int j = 0;j < I2C_PROBE_STR_LEN; j++) {
+            if (name[j] == 0) break;  // 输入名称结束，停止比较
+            if (devname[j] != name[j]) {  // 字符不匹配
+                match = false;
+                break;
+            }
+        }
+
+        if (match) {
+            return i;  // 找到匹配的设备，返回索引
+        }
+    }
+    return -1;  // 未找到匹配的设备
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\i2c.cpp
+#include <errno.h>
+
+#include "i2c.h"
+
+void I2c_delay(int time)
+{
+    while (time--);
+}
+
+int I2c_open(char *devname)
+{
+   return open(devname, O_RDWR);
+}
+
+void I2c_close(int fd)
+{
+	close(fd);
+}
+
+__s32 i2c_smbus_access(int file, char read_write, unsigned char command,
+		       int size, union i2c_smbus_data *data)
+{
+	struct i2c_smbus_ioctl_data args;
+	__s32 err;
+
+	args.read_write = read_write;
+	args.command = command;
+	args.size = size;
+	args.data = data;
+
+	err = ioctl(file, I2C_SMBUS, &args);
+	if (err == -1)
+		err = -errno;
+	return err;
+}
+
+__s32 i2c_smbus_write_quick(int file, unsigned char value)
+{
+	return i2c_smbus_access(file, value, 0, I2C_SMBUS_QUICK, NULL);
+}
+
+__s32 i2c_smbus_read_byte(int file)
+{
+	union i2c_smbus_data data;
+	int err;
+
+	err = i2c_smbus_access(file, I2C_SMBUS_READ, 0, I2C_SMBUS_BYTE, &data);
+	if (err < 0)
+		return err;
+
+	return 0x0FF & data.byte;
+}
+
+int I2c_detect(int fd, unsigned char *addrArray, int num, unsigned char *addr)
+{
+	int	ret = -1;
+
+	for(int i=0; i<num; i++)
+	{
+		if (ioctl(fd, I2C_SLAVE_FORCE, addrArray[i]) < 0)
+		{
+			continue;
+		}
+#if 1
+		ret = i2c_smbus_write_quick(fd, I2C_SMBUS_WRITE);
+#else
+		ret = i2c_smbus_read_byte(fd);
+#endif
+		if (ret >= 0)
+		{
+			printf("I2c addr 0X%02X is detected.\n", addrArray[i]);
+			*addr = addrArray[i];
+			break;
+		}
+	}
+
+	return ret;
+}
+
+/**
+ * @brief 检测I2C总线上指定地址数组中的所有可用设备
+ * 
+ * 该函数扫描指定的I2C地址数组，检测并返回所有在总线上存在的设备地址。
+ * 与I2c_detect函数不同，此函数不会在找到第一个设备后停止，而是继续
+ * 扫描所有候选地址，返回所有检测到的设备。
+ * 
+ * 工作原理：
+ * 1. 遍历所有候选地址
+ * 2. 对每个地址使用ioctl设置为从设备地址
+ * 3. 尝试读取一个字节来测试设备是否响应
+ * 4. 如果设备响应，将地址添加到检测结果数组中
+ * 5. 继续检测下一个地址，直到检查完所有候选地址
+ * 
+ * @param fd 已打开的I2C设备文件描述符
+ * @param addrArray 候选I2C地址数组指针，包含要检测的所有可能地址
+ * @param num 候选地址数组的长度，即要检测多少个地址
+ * @param detectedAddrs 输出参数，用于存储检测到的设备地址数组
+ * @param detectedCount 输出参数，返回实际检测到的设备数量
+ * 
+ * @return int 成功检测到至少一个设备返回0，未检测到任何设备返回-1
+ * 
+ * 使用示例：
+ *   unsigned char candidates[] = {0x23, 0x5C};  // 候选地址
+ *   unsigned char detected[4];                  // 存储检测结果
+ *   int count;                                  // 检测到的设备数量
+ *   
+ *   int result = I2c_detect_all(fd, candidates, 2, detected, &count);
+ *   if (result >= 0) {
+ *       printf("检测到 %d 个设备\n", count);
+ *       for (int i = 0; i < count; i++) {
+ *           printf("设备地址: 0x%02X\n", detected[i]);
+ *       }
+ *   }
+ * 
+ * 注意事项：
+ * - detectedAddrs数组必须有足够空间存储所有可能检测到的地址
+ * - 函数会打印每个检测到的设备地址信息
+ * - 如果ioctl设置地址失败，会跳过该地址继续检测下一个
+ */
+int I2c_detect_all(int fd, unsigned char *addrArray, int num, unsigned char *detectedAddrs, int *detectedCount)
+{
+	int	ret = -1;
+	*detectedCount = 0;  // 初始化检测到的设备数量为0
+
+	// 遍历所有候选地址
+	for(int i=0; i<num; i++)
+	{
+		// 设置I2C从设备地址
+		if (ioctl(fd, I2C_SLAVE, addrArray[i]) < 0)
+		{
+			continue;  // 设置地址失败，跳过此地址
+		}
+#if 1
+		ret = i2c_smbus_write_quick(fd, I2C_SMBUS_WRITE);
+#else	
+		ret = i2c_smbus_read_byte(fd);  // 尝试读取一个字节测试设备响应
+#endif
+		if (ret >= 0)
+		{
+			// 设备响应成功，记录此地址
+			printf("I2c addr 0X%02X is detected.\n", addrArray[i]);
+			detectedAddrs[*detectedCount] = addrArray[i];  // 存储检测到的地址
+			(*detectedCount)++;  // 增加检测到的设备计数
+		}
+	}
+
+	// 如果检测到至少一个设备返回0，否则返回-1
+	return (*detectedCount > 0) ? 0 : -1;
+}
+
+int I2c_write_cmd(int fd, unsigned char addr, unsigned char reg)
+{
+
+    unsigned char				outbuf[1];
+    struct i2c_rdwr_ioctl_data	packets;
+    struct i2c_msg				messages[1];
+
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = sizeof(outbuf);
+    messages[0].buf   = outbuf;
+
+    /* The first byte indicates which register we'll write */
+    outbuf[0] = reg;
+
+    /* Transfer the i2c packets to the kernel and verify it worked */
+    packets.msgs  = messages;
+    packets.nmsgs = 1;
+    if(ioctl(fd, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return -1;
+    }
+
+    return 0;
+}
+
+int I2c_write_reg(int fd, unsigned char addr, unsigned char reg, unsigned char value)
+{
+    unsigned char				outbuf[2];
+    struct i2c_rdwr_ioctl_data	packets;
+    struct i2c_msg				messages[1];
+ 
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = sizeof(outbuf);
+    messages[0].buf   = outbuf;
+ 
+    /* The first byte indicates which register we'll write */
+    outbuf[0] = reg;
+ 
+    /* 
+     * The second byte indicates the value to write.  Note that for many
+     * devices, we can write multiple, sequential registers at once by
+     * simply making outbuf bigger.
+     */
+    outbuf[1] = value;
+ 
+    /* Transfer the i2c packets to the kernel and verify it worked */
+    packets.msgs  = messages;
+    packets.nmsgs = 1;
+    if(ioctl(fd, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return -1;
+    }
+ 
+    return 0;
+}
+
+int I2c_write_reg_datas(int fd, unsigned char addr, unsigned char reg, unsigned char *value, int num)
+{
+    unsigned char				outbuf[2];
+    struct i2c_rdwr_ioctl_data	packets;
+    struct i2c_msg				messages[1];
+
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = sizeof(outbuf);
+    messages[0].buf   = outbuf;
+
+    packets.nmsgs = 1;
+    packets.msgs  = messages;
+
+    outbuf[0] = reg;
+    for(int i=0; i<num; i++)
+    {
+        outbuf[1] = value[i];
+
+        if(ioctl(fd, I2C_RDWR, &packets) < 0) {
+            perror("Unable to send data");
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+int I2c_read_regs(int fd, unsigned char addr, unsigned char reg, unsigned char *val, int num)
+{
+    struct i2c_rdwr_ioctl_data	packets;
+    struct i2c_msg				messages[2];
+
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = 1;
+    messages[0].buf   = &reg;
+
+    messages[1].addr  = addr;
+    messages[1].flags = I2C_M_RD;
+    messages[1].len   = num;
+    messages[1].buf   = val;
+
+    packets.nmsgs     = 2;
+    packets.msgs      = messages;
+
+    if(ioctl(fd, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return -1;
+    }
+
+    return 0;
+}
+
+int I2c_read_regs_addr16(int fd, unsigned char addr, unsigned short reg, unsigned char *val, int num)
+{
+    struct i2c_rdwr_ioctl_data	packets;
+    struct i2c_msg				messages[2];
+    unsigned char				regAddr[2];
+
+    regAddr[0] = (reg >> 8) & 0xFF;;
+    regAddr[1] = reg & 0xFF;
+
+    messages[0].addr  = addr;
+    messages[0].flags = 0;
+    messages[0].len   = 2;
+    messages[0].buf   = regAddr;
+
+    messages[1].addr  = addr;
+    messages[1].flags = I2C_M_RD;
+    messages[1].len   = num;
+    messages[1].buf   = val;
+
+    packets.nmsgs     = 2;
+    packets.msgs      = messages;
+
+    ioctl(fd, I2C_TIMEOUT, 2);
+    ioctl(fd, I2C_RETRIES, 1);
+
+    if(ioctl(fd, I2C_RDWR, &packets) < 0) {
+        perror("Unable to send data");
+        return -1;
+    }
+
+    return 0;
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\main.cpp
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <time.h>
+#include <ctype.h>
+#include <ctime>
+#include "s1.h"
+#include "s2.h"
+#include "s7.h"
+#include "s8.h"
+#include "e1.h"
+#include "e2.h"
+#include "i2c.h"
+#include "i2c_probe.h"
+#include <pthread.h>
+#include <sys/reboot.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+
+// 网络状态标志
+static bool network_available = true;
+static pthread_t network_thread_id;
+static pthread_mutex_t network_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+#define VOICE_HISTORY_FILE "./web/voice_history.json"
+#define VOICE_RECORD_FILE "/userdata/voice_record.wav"
+#define VOICE_TTS_XIAOMI_FILE "/userdata/tts_xiaomi.wav"
+#define MAX_VOICE_HISTORY 10
+#define ENV_HIST_SIZE 100   // 环境历史记录条数
+
+typedef struct
+{
+	char role[16];
+	char text[256];
+	time_t timestamp;
+} voice_history_item_t;
+
+static voice_history_item_t voice_history[MAX_VOICE_HISTORY];
+static int voice_history_count = 0;
+static char last_recognized_text[256] = "";
+static char last_nlp_intent[128] = "";
+
+extern int key_idx;
+extern int led_idx;
+extern int tube_idx;
+extern int bright_idx;
+extern int human_idx;
+extern int sht_idx;
+extern s1_key_process *s1_key;
+
+// ========== 全局状态变量 ==========
+int fan_off = 0;					   // 风扇开关: 0关闭, 1开启
+int lightness = 50;					   // E1亮度 (0-100)
+int dang[] = {0, 20, 40, 60, 80, 100}; // 风扇档位
+int dang_idx = 0;					   // 当前档位索引
+int mode_display = 1;				   // 显示模式: 0关闭, 1温度, 2湿度, 3光照
+int mode_fan = 0;					   // 风扇模式: 0手动, 1自动
+int mode_background = 0;			   // 场景模式 (0工作,1休闲,2睡眠)
+int mode_set = 0;					   // 设置模式: 0普通, 1设置
+int temperature_set = 28;			   // 温度阈值(℃)
+int humidity_set = 60;				   // 湿度阈值(%)
+int light_set = 500;				   // 光照阈值(lx)
+int voice_mode = 0;					   // 语音模式开关
+int sleep_time = 1;					   // 休眠等待时间(分钟): 1/3/5/10
+int light_mode = 0;					   // 0为手动模式 1为自动模式
+
+int fan_was_on_before_idle = 0;	  // 记录进入待机前的风扇开关状态
+int fan_dang_idx_before_idle = 0; // 记录进入待机前的风扇档位索引
+int prev_mode_background = -1;	  // 上一次场景模式，用于检测切换并播报
+int fan_manual_override = 0;	  // 用户是否手动控制过风扇（优先）
+
+// 全局环境数据结构
+typedef struct
+{
+	float temperature;
+	float humidity;
+	float light_intensity;
+	int human_detected;
+	time_t timestamp;
+} env_data_t;
+
+env_data_t env; // 全局变量
+
+int e5_idle = 0;		  // E5 待机状态
+int no_human_seconds = 0; // 无人计时
+int e1_cycle_tick = 0;	  // E1 自动切换计数
+int record_seconds = 3;	  // 录音时长
+float env_hist_temp[ENV_HIST_SIZE] = {0};
+float env_hist_hum[ENV_HIST_SIZE] = {0};
+float env_hist_lux[ENV_HIST_SIZE] = {0};
+int env_hist_count = 0;
+int env_hist_pos = 0;
+char alert_message[128] = "";
+int e5_scene = 0;
+int e5_voice_on = 1;
+int last_alert_active = 0; // 上一次是否处于告警状态，用于防止重复播报
+
+
+static pthread_t audio_thread_id;
+static pthread_mutex_t audio_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t audio_cond = PTHREAD_COND_INITIALIZER;
+static char audio_path[512] = {0};
+static int audio_play_requested = 0;
+
+// ========== 函数声明 ==========
+void print_system_status(void);
+void update_e1_display(int fd, i2c_probe_target *list);
+void update_e1_led(int fd, i2c_probe_target *list);
+void smart_control(int fd, i2c_probe_target *list);
+void handle_key_event(int fd, i2c_probe_target *list, int dev_idx, int key_num);
+
+void update_e5_display(int fd, i2c_probe_target *list);
+void process_e5_command(int fd, i2c_probe_target *list);
+void request_play_audio(const char *path);
+void request_record_audio(const char *outpath, int seconds);
+int record_audio_sync(const char *outpath, int seconds);
+int run_python_json(const char *cmd, char *output, size_t output_size);
+void escape_shell_arg(const char *src, char *dst, size_t dst_size);
+void log_voice_history(const char *role, const char *message);
+void write_voice_history_file(void);
+int parse_json_string(const char *json, const char *field, char *out, size_t out_size);
+int xiaomi_tts_to_file(const char *text, const char *outpath);
+void start_voice_interaction(int fd, i2c_probe_target *list);
+void execute_voice_intent(int fd, i2c_probe_target *list, const char *intent, const char *slots, const char *original_text);
+void tts_speak(const char *text);
+void system_reboot(void);
+bool is_network_available(void);
+
+// 简单的录音请求（不队列化，直接 spawn）
+void request_record_audio(const char *outpath, int seconds)
+{
+	if (!outpath)
+		return;
+	char cmd[1024];
+	// 使用 tinycap 进行录音
+	snprintf(cmd, sizeof(cmd), "tinycap %s -D 0 -d 0 -t %d -b 16 -r 16000 &", outpath, seconds);
+	printf("[S3] 开始录音: %s (%ds)\n", outpath, seconds);
+	system(cmd);
+}
+
+// 请求播放音频（非阻塞，通过后台线程执行）
+void request_play_audio(const char *path)
+{
+	if (!path)
+		return;
+	pthread_mutex_lock(&audio_mutex);
+	strncpy(audio_path, path, sizeof(audio_path) - 1);
+	audio_play_requested = 1;
+	pthread_cond_signal(&audio_cond);
+	pthread_mutex_unlock(&audio_mutex);
+}
+
+// 后台音频线程：等待播放请求并调用 tinyplay
+static void *audio_thread(void *arg)
+{
+	(void)arg;
+	for (;;)
+	{
+		pthread_mutex_lock(&audio_mutex);
+		while (!audio_play_requested)
+			pthread_cond_wait(&audio_cond, &audio_mutex);
+
+		char localpath[512] = {0};
+		strncpy(localpath, audio_path, sizeof(localpath) - 1);
+		audio_play_requested = 0;
+		pthread_mutex_unlock(&audio_mutex);
+
+		if (localpath[0])
+		{
+			char cmd[1024];
+			snprintf(cmd, sizeof(cmd), "aplay -D hw:0,1 %s", localpath);
+			printf("[E4] 播放音频: %s\n", localpath);
+			system(cmd);
+			printf("[E4] 播放完成: %s\n", localpath);
+		}
+	}
+	return NULL;
+}
+
+// 文本到语音：优先使用小米 TTS，失败后退回本地 TTS 命令生成 WAV 并播放
+void tts_speak(const char *text) {
+    if (!text || text[0] == '\0') return;
+
+    // 网络不可用时，直接走本地 TTS
+    if (!is_network_available()) {
+        const char *out = "/userdata/tts_announce.wav";
+        char cmd[1024];
+        if (access("/usr/bin/pico2wave", X_OK) == 0) {
+            snprintf(cmd, sizeof(cmd), "/usr/bin/pico2wave -l=zh-CN -w=%s \"%s\"", out, text);
+            system(cmd);
+            request_play_audio(out);
+        } else if (access("/usr/bin/espeak-ng", X_OK) == 0) {
+            snprintf(cmd, sizeof(cmd), "/usr/bin/espeak-ng -v zh -w %s \"%s\"", out, text);
+            system(cmd);
+            request_play_audio(out);
+        } else if (access("/usr/bin/espeak", X_OK) == 0) {
+            snprintf(cmd, sizeof(cmd), "/usr/bin/espeak -v zh -w %s \"%s\"", out, text);
+            system(cmd);
+            request_play_audio(out);
+        } else if (access("/usr/bin/flite", X_OK) == 0) {
+            snprintf(cmd, sizeof(cmd), "/usr/bin/flite -t \"%s\" -o %s", text, out);
+            system(cmd);
+            request_play_audio(out);
+        } else {
+            printf("[TTS] 离线且无本地 TTS 引擎，仅打印：%s\n", text);
+        }
+        return;
+    }
+
+    // 网络在线时，优先小米云端 TTS，失败后降级本地
+    if (xiaomi_tts_to_file(text, VOICE_TTS_XIAOMI_FILE)) {
+        request_play_audio(VOICE_TTS_XIAOMI_FILE);
+        return;
+    }
+
+    // 本地降级
+    const char *out = "/userdata/tts_announce.wav";
+    char cmd[1024];
+    if (access("/usr/bin/pico2wave", X_OK) == 0) {
+        snprintf(cmd, sizeof(cmd), "/usr/bin/pico2wave -l=zh-CN -w=%s \"%s\"", out, text);
+        system(cmd);
+        request_play_audio(out);
+    } else if (access("/usr/bin/espeak-ng", X_OK) == 0) {
+        snprintf(cmd, sizeof(cmd), "/usr/bin/espeak-ng -v zh -w %s \"%s\"", out, text);
+        system(cmd);
+        request_play_audio(out);
+    } else if (access("/usr/bin/espeak", X_OK) == 0) {
+        snprintf(cmd, sizeof(cmd), "/usr/bin/espeak -v zh -w %s \"%s\"", out, text);
+        system(cmd);
+        request_play_audio(out);
+    } else if (access("/usr/bin/flite", X_OK) == 0) {
+        snprintf(cmd, sizeof(cmd), "/usr/bin/flite -t \"%s\" -o %s", text, out);
+        system(cmd);
+        request_play_audio(out);
+    } else {
+        printf("[TTS] 无可用 TTS 引擎，本地输出文本：%s\n", text);
+    }
+}
+
+int record_audio_sync(const char *outpath, int seconds)
+{
+	if (!outpath)
+		return -1;
+	char cmd[1024];
+	snprintf(cmd, sizeof(cmd), "tinycap %s -D 0 -d 0 -t %d -b 16 -r 16000", outpath, seconds);
+	printf("[S3] 同步录音: %s\n", cmd);
+	return system(cmd);
+}
+
+void escape_shell_arg(const char *src, char *dst, size_t dst_size)
+{
+	if (!src || !dst || dst_size == 0)
+		return;
+
+	size_t pos = 0;
+	if (pos < dst_size - 1)
+		dst[pos++] = '\'';
+
+	while (*src && pos < dst_size - 4)
+	{
+		if (*src == '\'')
+		{
+			if (pos + 4 < dst_size)
+			{
+				dst[pos++] = '\'';
+				dst[pos++] = '\\';
+				dst[pos++] = '\'';
+				dst[pos++] = '\'';
+			}
+			src++;
+		}
+		else
+		{
+			dst[pos++] = *src++;
+		}
+	}
+
+	if (pos < dst_size - 1)
+		dst[pos++] = '\'';
+	dst[pos] = '\0';
+}
+
+void escape_json_string(const char *input, char *output, size_t size)
+{
+	if (!input || !output || size == 0)
+		return;
+
+	size_t pos = 0;
+	while (*input && pos < size - 1)
+	{
+		char c = *input++;
+		if (c == '"' || c == '\\' || c == '/')
+		{
+			if (pos + 2 >= size)
+				break;
+			output[pos++] = '\\';
+			output[pos++] = c;
+		}
+		else if (c == '\b')
+		{
+			if (pos + 2 >= size)
+				break;
+			output[pos++] = '\\';
+			output[pos++] = 'b';
+		}
+		else if (c == '\f')
+		{
+			if (pos + 2 >= size)
+				break;
+			output[pos++] = '\\';
+			output[pos++] = 'f';
+		}
+		else if (c == '\n')
+		{
+			if (pos + 2 >= size)
+				break;
+			output[pos++] = '\\';
+			output[pos++] = 'n';
+		}
+		else if (c == '\r')
+		{
+			if (pos + 2 >= size)
+				break;
+			output[pos++] = '\\';
+			output[pos++] = 'r';
+		}
+		else if (c == '\t')
+		{
+			if (pos + 2 >= size)
+				break;
+			output[pos++] = '\\';
+			output[pos++] = 't';
+		}
+		else
+		{
+			output[pos++] = c;
+		}
+	}
+	output[pos] = '\0';
+}
+
+int run_python_json(const char *cmd, char *output, size_t output_size)
+{
+	if (!cmd || !output || output_size == 0)
+		return -1;
+
+	FILE *fp = popen(cmd, "r");
+	if (!fp)
+		return -1;
+
+	size_t total = 0;
+	char buffer[512];
+	while (fgets(buffer, sizeof(buffer), fp))
+	{
+		size_t len = strnlen(buffer, sizeof(buffer));
+		if (total + len < output_size - 1)
+		{
+			memcpy(output + total, buffer, len);
+			total += len;
+		}
+		else
+		{
+			break;
+		}
+	}
+	output[total] = '\0';
+	int status = pclose(fp);
+	return status == 0 ? 0 : -1;
+}
+
+int parse_json_string(const char *json, const char *field, char *out, size_t out_size)
+{
+	if (!json || !field || !out || out_size == 0)
+		return 0;
+
+	char key[128];
+	snprintf(key, sizeof(key), "\"%s\"", field);
+	const char *pos = strstr(json, key);
+	if (!pos)
+		return 0;
+
+	pos = strchr(pos + strlen(key), ':');
+	if (!pos)
+		return 0;
+	pos++;
+	while (*pos && isspace((unsigned char)*pos))
+		pos++;
+	if (*pos != '\"')
+		return 0;
+	pos++;
+
+	size_t i = 0;
+	while (*pos && *pos != '\"' && i < out_size - 1)
+	{
+		if (*pos == '\\' && *(pos + 1))
+			pos++;
+		out[i++] = *pos++;
+	}
+	out[i] = '\0';
+	return 1;
+}
+
+void write_voice_history_file(void)
+{
+	FILE *f = fopen(VOICE_HISTORY_FILE, "w");
+	if (!f)
+		return;
+
+	fprintf(f, "[\n");
+	char role_escaped[256];
+	char text_escaped[512];
+	for (int i = 0; i < voice_history_count; i++)
+	{
+		escape_json_string(voice_history[i].role, role_escaped, sizeof(role_escaped));
+		escape_json_string(voice_history[i].text, text_escaped, sizeof(text_escaped));
+		fprintf(f, "  {\"role\":\"%s\",\"text\":\"%s\",\"timestamp\":%ld}%s\n",
+				role_escaped,
+				text_escaped,
+				(long)voice_history[i].timestamp,
+				i == voice_history_count - 1 ? "" : ",");
+	}
+	fprintf(f, "]\n");
+	fclose(f);
+}
+
+void log_voice_history(const char *role, const char *message)
+{
+	if (!role || !message)
+		return;
+
+	if (voice_history_count == MAX_VOICE_HISTORY)
+	{
+		memmove(voice_history, voice_history + 1, sizeof(voice_history_item_t) * (MAX_VOICE_HISTORY - 1));
+		voice_history_count--;
+	}
+
+	voice_history_item_t *entry = &voice_history[voice_history_count++];
+	strncpy(entry->role, role, sizeof(entry->role) - 1);
+	entry->role[sizeof(entry->role) - 1] = '\0';
+	strncpy(entry->text, message, sizeof(entry->text) - 1);
+	entry->text[sizeof(entry->text) - 1] = '\0';
+	entry->timestamp = time(NULL);
+	write_voice_history_file();
+}
+
+int xiaomi_tts_to_file(const char *text, const char *outpath)
+{
+	if (!text || !outpath)
+		return 0;
+
+	char escaped[1024];
+	escape_shell_arg(text, escaped, sizeof(escaped));
+	char cmd[2048];
+	snprintf(cmd, sizeof(cmd), "python3 ./web/xiaomi_ai.py tts %s %s", escaped, outpath);
+
+	char result[4096] = {0};
+	if (run_python_json(cmd, result, sizeof(result)) != 0)
+		return 0;
+
+	char status[64] = {0};
+	if (!parse_json_string(result, "status", status, sizeof(status)))
+		return 0;
+
+	return strcmp(status, "ok") == 0;
+}
+
+typedef struct {
+    const char* keyword;
+    const char* intent;
+    const char* slots;
+} offline_intent_t;
+
+static void offline_nlp(const char* text, char* out_intent, size_t intent_size, char* out_slots, size_t slots_size) {
+    out_intent[0] = '\0';
+    out_slots[0] = '\0';
+    if (!text) return;
+
+    char lower[256];
+    strncpy(lower, text, sizeof(lower)-1);
+    lower[sizeof(lower)-1] = '\0';
+    for (char *p = lower; *p; p++) *p = tolower(*p);
+
+    offline_intent_t table[] = {
+        {"打开风扇", "fan_on", ""}, {"开风扇", "fan_on", ""},
+        {"关闭风扇", "fan_off", ""}, {"关风扇", "fan_off", ""},
+        {"风扇打开", "fan_on", ""}, {"风扇关闭", "fan_off", ""},
+        {"温度", "announce_temperature", ""}, {"湿度", "announce_humidity", ""},
+        {"光照", "announce_lightness", ""}, {"显示模式", "switch_display", ""},
+        {"切换显示", "switch_display", ""}, {"开灯", "light_on", ""},
+        {"打开灯", "light_on", ""}, {"关灯", "light_off", ""},
+        {"关闭灯", "light_off", ""}, {"场景模式", "background_change", ""},
+        {"工作模式", "background_change", ""}, {"休闲模式", "background_change", ""},
+        {"睡眠模式", "background_change", ""}
+    };
+
+    for (size_t i = 0; i < sizeof(table)/sizeof(offline_intent_t); i++) {
+        if (strstr(lower, table[i].keyword)) {
+            strncpy(out_intent, table[i].intent, intent_size-1);
+            strncpy(out_slots, table[i].slots, slots_size-1);
+            return;
+        }
+    }
+
+    char* speed_pos = strstr(lower, "风扇");
+    if (speed_pos) {
+        char* num_pos = NULL;
+        for (char* p = speed_pos; *p; p++) {
+            if (*p >= '0' && *p <= '9') { num_pos = p; break; }
+        }
+        if (num_pos) {
+            int speed = atoi(num_pos);
+            if (speed >= 0 && speed <= 100) {
+                snprintf(out_intent, intent_size, "fan_speed");
+                snprintf(out_slots, slots_size, "%d", speed);
+                return;
+            }
+        }
+        if (strstr(speed_pos, "高速") || strstr(speed_pos, "大风")) {
+            snprintf(out_intent, intent_size, "fan_speed");
+            snprintf(out_slots, slots_size, "80");
+            return;
+        }
+        if (strstr(speed_pos, "中速")) {
+            snprintf(out_intent, intent_size, "fan_speed");
+            snprintf(out_slots, slots_size, "50");
+            return;
+        }
+        if (strstr(speed_pos, "低速") || strstr(speed_pos, "小风")) {
+            snprintf(out_intent, intent_size, "fan_speed");
+            snprintf(out_slots, slots_size, "20");
+            return;
+        }
+    }
+
+    if (strstr(lower, "亮") && strstr(lower, "灯")) {
+        snprintf(out_intent, intent_size, "light_brightness");
+        snprintf(out_slots, slots_size, "80");
+        return;
+    }
+    if (strstr(lower, "暗") && strstr(lower, "灯")) {
+        snprintf(out_intent, intent_size, "light_brightness");
+        snprintf(out_slots, slots_size, "20");
+        return;
+    }
+}
+
+void execute_voice_intent(int fd, i2c_probe_target *list, const char *intent, const char *slots, const char *original_text)
+{
+    char feedback[256] = "抱歉，我没有理解您的指令。";
+    char fallback_intent[128] = "";
+    const char *active_intent = intent;
+
+    // 如果云端没有返回有效 intent，尝试简单关键词匹配
+    if (!intent || intent[0] == '\0')
+    {
+        if (original_text && strstr(original_text, "风扇"))
+        {
+            if (strstr(original_text, "开") || strstr(original_text, "打开"))
+            {
+                strncpy(fallback_intent, "fan_on", sizeof(fallback_intent) - 1);
+            }
+            else if (strstr(original_text, "关") || strstr(original_text, "关闭"))
+            {
+                strncpy(fallback_intent, "fan_off", sizeof(fallback_intent) - 1);
+            }
+        }
+        else if (original_text && (strstr(original_text, "灯") || strstr(original_text, "灯光")))
+        {
+            if (strstr(original_text, "开") || strstr(original_text, "打开"))
+            {
+                strncpy(fallback_intent, "light_on", sizeof(fallback_intent) - 1);
+            }
+            else if (strstr(original_text, "关") || strstr(original_text, "关闭"))
+            {
+                strncpy(fallback_intent, "light_off", sizeof(fallback_intent) - 1);
+            }
+        }
+    }
+
+    if ((!active_intent || active_intent[0] == '\0') && fallback_intent[0])
+        active_intent = fallback_intent;
+
+    printf("[语音] intent=%s slots=%s 原始=%s\n",
+           active_intent ? active_intent : "<none>",
+           slots ? slots : "<none>",
+           original_text ? original_text : "<none>");
+
+    // ==================== 风扇控制 ====================
+    if (active_intent && strcmp(active_intent, "fan_on") == 0)
+    {
+        if (dang_idx == 0)
+            dang_idx = 1;               // 默认20%
+        e2_speed_control_all(fd, list, dang[dang_idx]);
+        fan_off = 1;
+        fan_manual_override = 1;
+        snprintf(feedback, sizeof(feedback), "已打开风扇，当前风速 %d%%。", dang[dang_idx]);
+    }
+    else if (active_intent && strcmp(active_intent, "fan_off") == 0)
+    {
+        e2_speed_control_all(fd, list, 0);
+        fan_off = 0;
+        fan_manual_override = 1;
+        snprintf(feedback, sizeof(feedback), "已关闭风扇。");
+    }
+    else if (active_intent && strcmp(active_intent, "fan_speed") == 0)
+    {
+        int speed = 50;                // 默认中速
+        if (slots && strlen(slots) > 0)
+        {
+            speed = atoi(slots);
+            if (speed < 0) speed = 0;
+            if (speed > 100) speed = 100;
+        }
+        // 找到最接近的预设档位 (dang[] = {0,20,40,60,80,100})
+        int best_idx = 0;
+        int best_diff = abs(dang[0] - speed);
+        for (int i = 1; i < 6; i++)
+        {
+            int diff = abs(dang[i] - speed);
+            if (diff < best_diff)
+            {
+                best_diff = diff;
+                best_idx = i;
+            }
+        }
+        dang_idx = best_idx;
+        e2_speed_control_all(fd, list, dang[dang_idx]);
+        fan_off = (dang[dang_idx] > 0) ? 1 : 0;
+        snprintf(feedback, sizeof(feedback), "风扇速度已设为 %d%%。", dang[dang_idx]);
+        fan_manual_override = 1;
+    }
+
+    // ==================== 灯光控制 ====================
+    else if (active_intent && strcmp(active_intent, "light_on") == 0)
+    {
+        // 如果数码管显示关闭，则开启显示模式
+        if (mode_display == 0)
+            mode_display = 1;
+        // 如果当前亮度为0，恢复默认亮度50
+        if (lightness == 0)
+            lightness = 50;
+        update_e1_led(fd, list);       // 刷新灯光
+        snprintf(feedback, sizeof(feedback), "灯已打开。");
+        // 清除手动覆盖标志？保持用户设置的颜色/亮度，不清除
+    }
+    else if (active_intent && strcmp(active_intent, "light_off") == 0)
+    {
+        e1_led_off_all(fd, list);
+        e1_digital_display_off_all(fd, list);
+        mode_display = 0;
+        lightness = 0;                 // 记录亮度为0，便于语音开灯时恢复默认
+        snprintf(feedback, sizeof(feedback), "灯已关闭。");
+    }
+    else if (active_intent && strcmp(active_intent, "light_brightness") == 0)
+    {
+        int val = 50;
+		if (slots && strlen(slots) > 0)
+        {
+            val = atoi(slots);
+            if (val < 0) val = 0;
+            if (val > 100) val = 100;
+        }
+        lightness = val;
+        update_e1_led(fd, list);
+        snprintf(feedback, sizeof(feedback), "灯光亮度已设为 %d%%。", lightness);
+        // 可选：清除自动灯光模式
+        light_mode = 0;
+    }
+    else if (active_intent && strcmp(active_intent, "light_color") == 0)
+    {
+        e1_led_color_t color = E1_COLOR_WHITE;
+        if (slots)
+        {
+            if (strcmp(slots, "red") == 0) color = E1_COLOR_RED;
+            else if (strcmp(slots, "green") == 0) color = E1_COLOR_GREEN;
+            else if (strcmp(slots, "blue") == 0) color = E1_COLOR_BLUE;
+            else if (strcmp(slots, "yellow") == 0) color = E1_COLOR_YELLOW;
+            else if (strcmp(slots, "orange") == 0) color = E1_COLOR_ORANGE;
+            else if (strcmp(slots, "purple") == 0) color = E1_COLOR_PURPLE;
+            else if (strcmp(slots, "white") == 0) color = E1_COLOR_WHITE;
+        }
+        if (lightness == 0) lightness = 50;   // 如果当前灯是关的，开灯并设亮度
+		light_mode = 0;                       // 切换为手动模式
+        e1_led_ctrl_all(fd, list, color, lightness);
+        snprintf(feedback, sizeof(feedback), "灯光颜色已设为%s。", slots ? slots : "白色");
+       
+    }
+
+    // ==================== 环境信息播报 ====================
+    else if (active_intent && strcmp(active_intent, "announce_temperature") == 0)
+    {
+        snprintf(feedback, sizeof(feedback), "当前温度 %.1f 摄氏度。", env.temperature);
+    }
+    else if (active_intent && strcmp(active_intent, "announce_humidity") == 0)
+    {
+        snprintf(feedback, sizeof(feedback), "当前湿度 百分之%.1f。", env.humidity);
+    }
+	else if (active_intent && strcmp(active_intent, "announce_lightness") == 0)
+    {
+        snprintf(feedback, sizeof(feedback), "当前光照 %.1f 勒克斯。", env.light_intensity);
+    }
+    else if (active_intent && strcmp(active_intent, "switch_display") == 0)
+    {
+        mode_display = (mode_display + 1) % 4;
+        const char *mode_names[] = {"关闭", "温度", "湿度", "光照"};
+        snprintf(feedback, sizeof(feedback), "已切换显示模式：%s。", mode_names[mode_display]);
+    }
+	// ==================== 场景模式切换 ====================
+	else if (active_intent && strcmp(active_intent, "background_change") == 0)
+    {
+        mode_background = (mode_background + 1) % 3;
+		fan_manual_override = 0; // 场景切换后恢复场景自动控制
+		printf("场景模式: %d\n", mode_background);
+		// 语音播报切换结果
+		if (e5_voice_on)
+		{
+			switch (mode_background)
+			{
+			case 0:
+				snprintf(feedback, sizeof(feedback), "已切换到工作模式");
+				break;
+			case 1:
+				snprintf(feedback, sizeof(feedback), "已切换到休闲模式");
+				break;
+			case 2:
+				snprintf(feedback, sizeof(feedback), "已切换到睡眠模式");
+				break;
+			default:
+				snprintf(feedback, sizeof(feedback), "已切换到模式 %d", mode_background);
+				break;
+			}
+			
+		}
+    }
+
+	// ==================== 日期时间查询 ====================
+    else if (active_intent && strcmp(active_intent, "query_date") == 0)
+    {
+        std::time_t t = std::time(nullptr);
+        std::tm* now = std::localtime(&t);
+        char date_str[64];
+        std::strftime(date_str, sizeof(date_str), "今天是%Y年%m月%d日", now);
+        snprintf(feedback, sizeof(feedback), "%s", date_str);
+    }
+    else if (active_intent && strcmp(active_intent, "query_time") == 0)
+    {
+        std::time_t t = std::time(nullptr);
+        std::tm* now = std::localtime(&t);
+        char time_str[64];
+        std::strftime(time_str, sizeof(time_str), "%H点%M分%S秒", now);
+        snprintf(feedback, sizeof(feedback), "现在时间 %s", time_str);
+    }
+	
+	// ==================== 真实天气查询 ====================
+    else if (active_intent && strcmp(active_intent, "real_weather") == 0)
+    {
+        char city[128] = {0};
+        if (slots && slots[0] != '\0') {
+            strncpy(city, slots, sizeof(city)-1);
+        } else {
+            // 默认城市，可从配置文件读取，简单写死或从环境变量获取
+            strcpy(city, "天津");
+        }
+        
+        char cmd[1024];
+        snprintf(cmd, sizeof(cmd), "python3 ./web/xiaomi_ai.py real_weather %s", city);
+        char result[4096] = {0};
+        if (run_python_json(cmd, result, sizeof(result)) == 0) {
+            char weather_text[256] = {0};
+            if (parse_json_string(result, "text", weather_text, sizeof(weather_text))) {
+                strncpy(feedback, weather_text, sizeof(feedback)-1);
+            } else {
+                // 真实天气获取失败，降级到原有 AI 生成的天气
+                goto fallback_weather;
+            }
+        } else {
+            fallback_weather:
+            
+            if (!is_network_available()) {
+                strncpy(feedback, "网络未连接，无法查询天气。", sizeof(feedback)-1);
+            } else {
+                char result2[4096] = {0};
+                if (run_python_json("python3 ./web/xiaomi_ai.py skill weather", result2, sizeof(result2)) == 0) {
+                    char skill_text[256] = {0};
+                    if (parse_json_string(result2, "text", skill_text, sizeof(skill_text)))
+                        strncpy(feedback, skill_text, sizeof(feedback)-1);
+                    else
+                        strncpy(feedback, "获取天气信息失败，请稍后再试。", sizeof(feedback)-1);
+                } else {
+                    strncpy(feedback, "天气服务暂不可用。", sizeof(feedback)-1);
+                }
+            }
+        }
+    }
+
+    // ==================== 技能（ AI ） ====================
+    else if (active_intent && strcmp(active_intent, "weather_query") == 0)
+    {
+        if (!is_network_available()) {
+            strncpy(feedback, "网络未连接，无法查询天气。", sizeof(feedback)-1);
+        } else {
+            char result[4096] = {0};
+            if (run_python_json("python3 ./web/xiaomi_ai.py skill weather", result, sizeof(result)) == 0)
+            {
+                char skill_text[256] = {0};
+                if (parse_json_string(result, "text", skill_text, sizeof(skill_text)))
+                    strncpy(feedback, skill_text, sizeof(feedback) - 1);
+                else
+                    strncpy(feedback, "获取天气信息失败，请稍后再试。", sizeof(feedback) - 1);
+            }
+            else
+            {
+                strncpy(feedback, "天气服务暂不可用。", sizeof(feedback) - 1);
+            }
+        }
+    }
+    else if (active_intent && strcmp(active_intent, "schedule_query") == 0)
+    {
+        if (!is_network_available()) {
+            strncpy(feedback, "网络未连接，无法获取日程。", sizeof(feedback)-1);
+        } else {
+            char result[4096] = {0};
+            if (run_python_json("python3 ./web/xiaomi_ai.py skill schedule", result, sizeof(result)) == 0)
+            {
+                char skill_text[256] = {0};
+                if (parse_json_string(result, "text", skill_text, sizeof(skill_text)))
+                    strncpy(feedback, skill_text, sizeof(feedback) - 1);
+                else
+                    strncpy(feedback, "获取日程提醒失败，请稍后再试。", sizeof(feedback) - 1);
+            }
+            else
+            {
+                strncpy(feedback, "日程服务暂不可用。", sizeof(feedback) - 1);
+            }
+        }
+    }
+
+    // 记录历史并语音播报
+    log_voice_history("assistant", feedback);
+    tts_speak(feedback);
+}
+
+void start_voice_interaction(int fd, i2c_probe_target *list) {
+    log_voice_history("system", "开始语音交互，正在唤醒...");
+    tts_speak("请说出您的指令。");
+
+    usleep(1500000);
+    if (record_audio_sync(VOICE_RECORD_FILE, 3) != 0) {
+        log_voice_history("assistant", "录音失败，请检查麦克风。");
+        tts_speak("录音失败，请检查麦克风。");
+        return;
+    }
+
+    log_voice_history("system", "语音采集完成，正在识别...");
+
+    char recognized_text[256] = {0};
+    int use_offline = 0;
+
+    if (is_network_available()) {
+        char cmd[2048];
+        snprintf(cmd, sizeof(cmd), "python3 ./web/xiaomi_ai.py asr %s", VOICE_RECORD_FILE);
+        char result[4096] = {0};
+        if (run_python_json(cmd, result, sizeof(result)) == 0) {
+            parse_json_string(result, "text", recognized_text, sizeof(recognized_text));
+        } else {
+            log_voice_history("assistant", "语音识别失败，将尝试离线匹配。");
+            use_offline = 1;
+        }
+    } else {
+        log_voice_history("system", "网络不可用，跳过云端 ASR，直接使用离线关键词匹配。");
+        use_offline = 1;
+    }
+
+    if (use_offline || recognized_text[0] == '\0') {
+        if (recognized_text[0] == '\0') {
+            snprintf(recognized_text, sizeof(recognized_text), "无法识别语音（网络离线）");
+        }
+        char intent[128] = {0};
+        char slots[256] = {0};
+        offline_nlp(recognized_text, intent, sizeof(intent), slots, sizeof(slots));
+        if (intent[0] != '\0') {
+            execute_voice_intent(fd, list, intent, slots, recognized_text);
+        } else {
+            log_voice_history("assistant", "离线模式下无法理解指令。");
+            tts_speak("网络不可用，且无法理解您的指令。");
+        }
+        return;
+    }
+
+    strncpy(last_recognized_text, recognized_text, sizeof(last_recognized_text)-1);
+    log_voice_history("user", recognized_text);
+
+    char escaped[1024];
+    escape_shell_arg(recognized_text, escaped, sizeof(escaped));
+    char cmd[2048];
+    snprintf(cmd, sizeof(cmd), "python3 ./web/xiaomi_ai.py nlp %s", escaped);
+    char nlp_result[4096] = {0};
+
+    if (run_python_json(cmd, nlp_result, sizeof(nlp_result)) != 0) {
+        char intent[128] = {0};
+        char slots[256] = {0};
+        offline_nlp(recognized_text, intent, sizeof(intent), slots, sizeof(slots));
+        if (intent[0] != '\0') {
+            execute_voice_intent(fd, list, intent, slots, recognized_text);
+        } else {
+            log_voice_history("assistant", "指令解析失败，请重试。");
+            tts_speak("指令解析失败，请重试。");
+        }
+        return;
+    }
+
+    char intent[128] = {0};
+    char slots[256] = {0};
+    parse_json_string(nlp_result, "intent", intent, sizeof(intent));
+    parse_json_string(nlp_result, "slots", slots, sizeof(slots));
+    if (intent[0] != '\0')
+        strncpy(last_nlp_intent, intent, sizeof(last_nlp_intent)-1);
+
+    execute_voice_intent(fd, list, intent, slots, recognized_text);
+}
+
+// ========== 函数实现 ==========
+void print_system_status(void)
+{
+	printf("\n========== 系统状态 ==========\n");
+	printf("温度: %.1f ℃  湿度: %.1f %%  光照: %.0f lx\n",
+		   env.temperature, env.humidity, env.light_intensity);
+	printf("人体: %s  风扇: %s (档位: %d%%)  亮度: %d%%  无人计时: %ds\n",
+		   env.human_detected ? "有人" : "无人",
+		   fan_off ? "开启" : "关闭", dang[dang_idx], lightness, no_human_seconds / 20);
+	printf("显示模式: ");
+	switch (mode_display)
+	{
+	case 0:
+		printf("关闭");
+		break;
+	case 1:
+		printf("温度");
+		break;
+	case 2:
+		printf("湿度");
+		break;
+	case 3:
+		printf("光照");
+		break;
+	}
+	printf("  场景模式: %d  设置模式: %s\n", mode_background, mode_set ? "开启" : "关闭");
+	printf("阈值: 温度%d℃ 湿度%d%% 光照%dlx  休眠时间:%d分钟\n",
+		   temperature_set, humidity_set, light_set, sleep_time);
+	printf("==============================\n\n");
+}
+
+void update_e1_display(int fd, i2c_probe_target *list)
+{
+	// 睡眠或待机时数码管始终熄灭
+	if (tube_idx < 0 || mode_display == 0 || mode_background == 2 || e5_idle)
+	{
+		mode_display = 0;
+		if (tube_idx >= 0)
+			e1_digital_display_off_all(fd, list);
+		return;
+	}
+	for (int i = 0; i < list[tube_idx].detected_count; i++)
+	{
+		unsigned char addr = list[tube_idx].detected_addrs[i];
+		int val;
+		if (mode_display == 1)
+		{ // 温度
+			val = (int)(env.temperature);
+			if (val < 0)
+			{
+				e1_digital_bit_display_char(fd, addr, 0, '-');
+				val = -val;
+			}
+			else
+			{
+				e1_digital_bit_display_char(fd, addr, 0, ' ');
+			}
+			e1_digital_display(fd, addr,
+							   val / 1000, (val % 1000) / 100,
+							   (val % 100) / 10, val % 10);
+		}
+		else if (mode_display == 2)
+		{ // 湿度
+			val = (int)(env.humidity);
+			e1_digital_display(fd, addr,
+							   val / 1000, (val % 1000) / 100,
+							   (val % 100) / 10, val % 10);
+		}
+		else
+		{ // 光照
+			val = (int)env.light_intensity;
+			if (val > 9999)
+				val = 9999;
+			e1_digital_display(fd, addr,
+							   val / 1000, (val % 1000) / 100,
+							   (val % 100) / 10, val % 10);
+		}
+	}
+}
+
+void update_e1_led(int fd, i2c_probe_target *list)
+{
+	if (led_idx < 0)
+		return;
+	if (e5_idle)
+	{
+		e1_led_off_all(fd, list);
+		return;
+	}
+	// 模式化控制：工作(0)、休闲(1)、睡眠(2)
+	if (mode_background == 2)
+	{
+		// 睡眠模式：关闭指示灯
+		e1_led_off_all(fd, list);
+		return;
+	}
+	else if (mode_background == 0)
+	{
+		// 工作模式：白色、亮度50%
+		// lightness=50;
+		e1_led_ctrl_all(fd, list, E1_COLOR_WHITE, lightness);
+		return;
+	}
+	else if (mode_background == 1)
+	{
+		// 休闲模式：暖黄色 (R=255,G=200,B=100)，亮度50%
+		// lightness=50;
+		e1_led_ctrl_all(fd, list, E1_COLOR_ORANGE, lightness);
+		return;
+	}
+	// 其他模式回退到原先基于环境颜色控制
+	e1_led_color_t color = E1_COLOR_GREEN;
+	if (!env.human_detected)
+		color = E1_COLOR_BLUE;
+	else if (env.temperature > temperature_set + 3 || env.humidity > humidity_set + 20)
+		color = E1_COLOR_RED;
+	else if (env.temperature > temperature_set || env.humidity > humidity_set)
+		color = E1_COLOR_YELLOW;
+	else
+		color = E1_COLOR_GREEN;
+	e1_led_ctrl_all(fd, list, color, lightness);
+}
+
+// 将 E1 的摘要信息同步到 E5（触控屏）显示
+void update_e5_display(int fd, i2c_probe_target *list)
+{
+	// ========== 历史数据记录：改为每 1 秒记录一次 ==========
+    static int record_counter = 0;        // 静态计数器，记录调用次数
+    record_counter++;
+    if (record_counter >= 20)             // 20 × 50ms = 1000ms = 1秒
+    {
+        record_counter = 0;               // 重置计数器
+        if (env_hist_count < ENV_HIST_SIZE)
+            env_hist_count++;
+        env_hist_temp[env_hist_pos] = env.temperature;
+        env_hist_hum[env_hist_pos] = env.humidity;
+        env_hist_lux[env_hist_pos] = env.light_intensity;
+        env_hist_pos = (env_hist_pos + 1) % ENV_HIST_SIZE;
+    }
+
+	// 人体超时计数（函数被主循环50ms调用一次）
+	const int TICKS_PER_SEC = 20;	  // 1000ms / 50ms
+	const int THRESH_WORK = 180 * 20; // 3分钟
+	const int THRESH_REST = 300 * 20; // 5分钟
+	const int THRESH_SLEEP = 60 * 20; // 1分钟
+
+	if (!env.human_detected)
+		no_human_seconds += 3;
+	else
+		no_human_seconds = 0;
+
+	int thresh = THRESH_WORK;
+	if (mode_background == 1)
+		thresh = THRESH_REST;
+	else if (mode_background == 2)
+		thresh = THRESH_SLEEP;
+
+	// 进入待机
+	if (!e5_idle && no_human_seconds >= thresh)
+	{
+		prev_mode_background = mode_background;
+		fan_was_on_before_idle = fan_off;
+		fan_dang_idx_before_idle = dang_idx;
+
+		e5_idle = 1;
+		mode_display = 0;
+
+		e1_digital_display_off_all(fd, list);
+		e1_led_off_all(fd, list);
+		e2_speed_control_all(fd, list, 0);
+		fan_off = 0;
+		fan_manual_override = 0;
+		printf("[无人待机] 进入待机，场景 %d, E1 熄屏, 风扇已关闭\n", prev_mode_background);
+	}
+
+	// 唤醒
+	if (e5_idle && env.human_detected)
+	{
+		e5_idle = 0;
+		if (prev_mode_background == 2)
+		{
+			mode_background = 1;	 // 睡眠唤醒进入休闲模式
+			fan_manual_override = 0; // 唤醒后恢复休闲模式自动控制
+			if (e5_voice_on)
+				tts_speak("已切换到休闲模式");
+		}
+		else
+		{
+			if (fan_was_on_before_idle)
+			{
+				dang_idx = fan_dang_idx_before_idle;
+				e2_speed_control_all(fd, list, dang[dang_idx]);
+				fan_off = 1;
+				printf("[有人唤醒] 恢复风扇档位 %d%%\n", dang[dang_idx]);
+			}
+			else
+			{
+				printf("[有人唤醒] 风扇保持关闭\n");
+			}
+		}
+		mode_display = 1;
+	}
+
+	// E1 自动循环显示（每3秒切换一次温度/湿度/光照）
+	if (!mode_set && !e5_idle)
+	{
+		e1_cycle_tick++;
+		if (e1_cycle_tick >= 60)
+		{
+			e1_cycle_tick = 0;
+			if (mode_display == 0)
+				mode_display = 1;
+			else
+				mode_display = (mode_display % 3) + 1;
+		}
+	}
+
+	// 告警判断（场景差异化）
+	int alert_active = 0;
+	if (mode_background == 0)
+	{
+		if (env.temperature > 30.0f || env.humidity > 70.0f || env.light_intensity < 200.0f || env.light_intensity > 600.0f)
+			alert_active = 1;
+	}
+	else if (mode_background == 1)
+	{
+		if (env.temperature > 32.0f || env.humidity > 80.0f)
+			alert_active = 1;
+	}
+	else
+	{
+		alert_active = 0;
+	}
+	if (alert_active && !last_alert_active && e5_voice_on && mode_background == 0 && !e5_idle)
+	{
+		char tbuf[256];
+		snprintf(tbuf, sizeof(tbuf), "环境告警: 温度 %.1f摄氏度 湿度 百分之%.1f  光照 %.0f勒克斯", env.temperature, env.humidity, env.light_intensity);
+		tts_speak(tbuf);
+	}
+	last_alert_active = alert_active;
+
+	// 写 e5 状态 JSON
+	FILE *f = fopen("./web/e5_status.json", "w");
+	if (f)
+	{
+		int start = (env_hist_pos + ENV_HIST_SIZE - env_hist_count) % ENV_HIST_SIZE;
+		fprintf(f, "{\n");
+		fprintf(f, "  \"temperature\": %.1f,\n", env.temperature);
+		fprintf(f, "  \"humidity\": %.1f,\n", env.humidity);
+		fprintf(f, "  \"light\": %.1f,\n", env.light_intensity);
+		fprintf(f, "  \"human\": %d,\n", env.human_detected);
+		fprintf(f, "  \"fan_on\": %d,\n", fan_off);
+		fprintf(f, "  \"fan_level\": %d,\n", dang[dang_idx]);
+		fprintf(f, "  \"temperature_set\": %d,\n", temperature_set);
+		fprintf(f, "  \"humidity_set\": %d,\n", humidity_set);
+		fprintf(f, "  \"light_set\": %d,\n", light_set);
+		fprintf(f, "  \"scene\": %d,\n", mode_background);
+		fprintf(f, "  \"voice_on\": %d,\n", e5_voice_on);
+		fprintf(f, "  \"sleep_time\": %d,\n", sleep_time);
+		fprintf(f, "  \"display_mode\": %d,\n", mode_display);
+		fprintf(f, "  \"brightness\": %d,\n", lightness);
+		fprintf(f, "  \"fan_mode\": %d,\n", mode_fan);
+		fprintf(f, "  \"light_mode\": %d,\n", light_mode);
+		fprintf(f, "  \"idle\": %d,\n", e5_idle);
+		fprintf(f, "  \"network\": %d,\n", is_network_available() ? 1 : 0);
+		fprintf(f, "  \"alert\": \"%s\",\n", alert_active ? "异常" : "正常");
+		char voice_role[256];
+		char voice_text[512];
+		escape_json_string(last_recognized_text, voice_text, sizeof(voice_text));
+		fprintf(f, "  \"last_recognized_text\": \"%s\",\n", voice_text);
+		escape_json_string(last_nlp_intent, voice_role, sizeof(voice_role));
+		fprintf(f, "  \"last_nlp_intent\": \"%s\",\n", voice_role);
+		fprintf(f, "  \"voice_history\": [\n");
+		for (int i = 0; i < voice_history_count; i++)
+		{
+			escape_json_string(voice_history[i].role, voice_role, sizeof(voice_role));
+			escape_json_string(voice_history[i].text, voice_text, sizeof(voice_text));
+			fprintf(f, "    {\"role\":\"%s\",\"text\":\"%s\"}%s\n",
+					voice_role,
+					voice_text,
+					i == voice_history_count - 1 ? "" : ",");
+		}
+		fprintf(f, "  ],\n");
+		fprintf(f, "  \"history\": {\n");
+		fprintf(f, "    \"temp\": [");
+		for (int i = 0, idx = start; i < env_hist_count; i++, idx = (idx + 1) % ENV_HIST_SIZE)
+		{
+			fprintf(f, "%s%.1f", i ? ", " : "", env_hist_temp[idx]);
+		}
+		fprintf(f, "],\n");
+		fprintf(f, "    \"hum\": [");
+		for (int i = 0, idx = start; i < env_hist_count; i++, idx = (idx + 1) % ENV_HIST_SIZE)
+		{
+			fprintf(f, "%s%.1f", i ? ", " : "", env_hist_hum[idx]);
+		}
+		fprintf(f, "],\n");
+		fprintf(f, "    \"lux\": [");
+		for (int i = 0, idx = start; i < env_hist_count; i++, idx = (idx + 1) % ENV_HIST_SIZE)
+		{
+			fprintf(f, "%s%.1f", i ? ", " : "", env_hist_lux[idx]);
+		}
+		fprintf(f, "]\n");
+		fprintf(f, "  }\n");
+		fprintf(f, "}\n");
+		fclose(f);
+	}
+
+	// 简单的UI文本同步，供旧的前端快速读取
+	FILE *fu = fopen("./web/e5_ui.txt", "w");
+	if (fu)
+	{
+		fprintf(fu, "scene=%d\nvoice=%d\nfan_on=%d\nfan_level=%d\n", mode_background, e5_voice_on, fan_off, dang[dang_idx]);
+		fclose(fu);
+	}
+}
+
+// 智能联动控制
+void smart_control(int fd, i2c_probe_target *list)
+{
+	if (e5_idle)
+	{
+		e2_speed_control_all(fd, list, 0);
+		fan_off = 0;
+		return;
+	}
+	// 场景化风扇控制
+	if (mode_background == 0)
+	{
+		// 工作模式：启用自动风扇，根据温度分档
+		mode_fan = 1;
+		int desired = 0;
+		if (env.temperature < 26.0f)
+			desired = 0;
+		else if (env.temperature < 28.0f)
+			desired = 40;
+		else if (env.temperature < 30.0f)
+			desired = 60;
+		else
+			desired = 80;
+		if (!fan_manual_override)
+		{
+			if (desired == 0)
+			{
+				if (fan_off)
+				{
+					e2_speed_control_all(fd, list, 0);
+					fan_off = 0;
+				}
+			}
+			else
+			{
+				// 找到最接近的档位
+				int best = 0, bestdiff = 10000;
+				for (int i = 0; i < 6; i++)
+				{
+					int diff = abs(dang[i] - desired);
+					if (diff == 0)
+					{
+						best = i;
+						break;
+					}
+				}
+				dang_idx = best;
+				e2_speed_control_all(fd, list, desired);
+				fan_off = 1;
+			}
+		}
+	}
+	else if (mode_background == 1)
+	{
+		// 休闲模式：手动优先，默认维持低档20%
+		mode_fan = 0;
+		if (!fan_manual_override)
+		{
+			// 设置为静音档 20%
+			int desired = 20;
+			int best = 0, bestdiff = 10000;
+			for (int i = 0; i < 6; i++)
+			{
+				int diff = abs(dang[i] - desired);
+				if (diff == 0)
+				{
+					best = i;
+					break;
+				}
+			}
+			dang_idx = best;
+			e2_speed_control_all(fd, list, desired);
+			fan_off = 1;
+		}
+	}
+	else if (mode_background == 2)
+	{
+		// 睡眠模式：默认关闭风扇，但若温度过高 (>35) 则强制开启
+		if (env.temperature > 35.0f)
+		{
+			// 强制打开（60%）
+			int desired = 60;
+			int best = 0, bestdiff = 10000;
+			for (int i = 0; i < 6; i++)
+			{
+				int diff = abs(dang[i] - desired);
+				if (diff == 0)
+				{
+					best = i;
+					break;
+				}
+			}
+			dang_idx = best;
+			e2_speed_control_all(fd, list, desired);
+			fan_off = 1;
+		}
+		else
+		{
+			e2_speed_control_all(fd, list, 0);
+			fan_off = 0;
+		}
+	}
+
+	// 自动调节E1亮度(基于光照)（仅在灯光自动模式下生效）
+	if (light_mode == 1)
+	{
+		if (env.light_intensity < 100)
+			lightness = 20;
+		else if (env.light_intensity > 1000)
+			lightness = 100;
+		else
+			lightness = 20 + (int)((env.light_intensity - 100) * 80 / 900);
+	}
+}
+
+// 处理来自触控屏的命令（由 web/server.py 写入 web/e5_command.txt ）
+void process_e5_command(int fd, i2c_probe_target *list)
+{
+	FILE *fcmd = fopen("./web/e5_command.txt", "r");
+	if (!fcmd)
+		return;
+
+	char buf[1024];
+	while (fgets(buf, sizeof(buf), fcmd))
+	{
+		// 格式: key=action&value=xxx 或简短的 token 解析
+		char *tok = strtok(buf, "=&\n\r ");
+		if (!tok)
+			continue;
+		char *action = NULL;
+		char *value = NULL;
+		// 简单解析两级命令
+		if (strcmp(tok, "fan") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			value = strtok(NULL, "=&\n\r ");
+			
+			if (action)
+			{
+				if (strcmp(action, "on") == 0)
+				{
+					if (dang_idx == 0) dang_idx = 1;
+					e2_speed_control_all(fd, list, dang[dang_idx]);
+					fan_off = 1;
+					printf("[E5] 风扇 开 (档位:%d%%)\n", dang[dang_idx]);
+				}
+				else if (strcmp(action, "off") == 0)
+				{
+					e2_speed_control_all(fd, list, 0);
+					fan_off = 0;
+					printf("[E5] 风扇 关\n");
+				}
+				else if (strcmp(action, "set") == 0)
+				{
+					int speed = 20; // 默认
+					
+					if (value && strcmp(value, "value") == 0)
+					{
+						char *speed_str = strtok(NULL, "=&\n\r ");
+						if (speed_str) speed = atoi(speed_str);
+					}
+					// 兼容直接写数字的情况（"fan=set&60"）
+					else if (value)
+					{
+						speed = atoi(value);
+					}
+					
+					if (speed < 0) speed = 0;
+					if (speed > 100) speed = 100;
+					
+					if (speed == 0)
+					{
+						e2_speed_control_all(fd, list, 0);
+						fan_off = 0;
+						printf("[E5] 风扇关闭 (0%%)\n");
+					}
+					else
+					{
+						// 找到最接近的预设档位
+						int best_idx = 1;
+						int best_diff = abs(dang[1] - speed);
+						for (int i = 2; i < 6; i++)
+						{
+							int diff = abs(dang[i] - speed);
+							if (diff < best_diff)
+							{
+								best_diff = diff;
+								best_idx = i;
+							}
+						}
+						dang_idx = best_idx;
+						e2_speed_control_all(fd, list, dang[dang_idx]);
+						fan_off = 1;
+						printf("[E5] 风扇 档位设置 %d%% \n", speed, dang[dang_idx]);
+					}
+					fan_manual_override = 1;
+				}
+			}
+		}
+
+		else if (strcmp(tok, "scene") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			if (action)
+			{
+				mode_background = atoi(action);
+				fan_manual_override = 0; // 使用触控切换场景时恢复场景自动控制
+				printf("[E5] 场景设置 %d\n", mode_background);
+				if (e5_voice_on)
+				{
+					char msg[128];
+					switch (mode_background)
+					{
+					case 0:
+						snprintf(msg, sizeof(msg), "已切换到工作模式");
+						break;
+					case 1:
+						snprintf(msg, sizeof(msg), "已切换到休闲模式");
+						break;
+					case 2:
+						snprintf(msg, sizeof(msg), "已切换到睡眠模式");
+						break;
+					default:
+						snprintf(msg, sizeof(msg), "已切换到模式 %d", mode_background);
+						break;
+					}
+					// 睡眠模式禁止语音
+					if (mode_background != 2)
+						tts_speak(msg);
+				}
+			}
+		}
+		else if (strcmp(tok, "voice") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			if (action)
+			{
+				if (strcmp(action, "start") == 0)
+				{
+					printf("[E5] 语音交互触发\n");
+					start_voice_interaction(fd, list);
+				}
+				else
+				{
+					e5_voice_on = (strcmp(action, "on") == 0);
+					printf("[E5] 语音播报 %s\n", e5_voice_on ? "开启" : "关闭");
+				}
+			}
+		}
+		else if (strcmp(tok, "speak_status") == 0)
+		{
+			if (mode_background != 2 && e5_voice_on)
+			{
+				char tbuf[256];
+				snprintf(tbuf, sizeof(tbuf), "当前温度 %.1f摄氏度，湿度 百分之%.1f ，光照 %.0f勒克斯", env.temperature, env.humidity, env.light_intensity);
+				tts_speak(tbuf);
+			}
+		}
+		else if (strcmp(tok, "threshold") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			value = strtok(NULL, "=&\n\r ");
+			if (action && value)
+			{
+				if (strcmp(action, "temp") == 0)
+					temperature_set = atoi(value);
+				else if (strcmp(action, "hum") == 0)
+					humidity_set = atoi(value);
+				else if (strcmp(action, "light") == 0)
+					light_set = atoi(value);
+				printf("[E5] 阈值更新 temp=%d hum=%d light=%d\n", temperature_set, humidity_set, light_set);
+			}
+		}
+		else if (strcmp(tok, "sleep") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			if (action)
+			{
+				sleep_time = atoi(action);
+				printf("[E5] 休眠时间设置 %d 分钟\n", sleep_time);
+			}
+		}
+		else if (strcmp(tok, "brightness") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			if (action)
+			{
+				int val = atoi(action);
+				if (val < 0)
+					val = 0;
+				if (val > 100)
+					val = 100;
+				lightness = val;
+				update_e1_led(fd, list);
+				printf("[E5] RGB 亮度: %d%%\n", lightness);
+			}
+		}
+		else if(strcmp(tok,"light_mode") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			if (action)
+			{
+				light_mode = atoi(action);
+				printf("[E5] 灯光模式 %d\n", light_mode);
+			}
+		}
+		else if(strcmp(tok,"fan_mode") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			if (action)
+			{
+				mode_fan = atoi(action);
+				printf("[E5] 风扇模式 %d\n", mode_fan);
+			}
+		}
+		else if (strcmp(tok, "display") == 0)
+		{
+			action = strtok(NULL, "=&\n\r ");
+			if (action)
+			{
+				mode_display = atoi(action);
+				printf("[E5] 显示模式 %d\n", mode_display);
+			}
+		}
+	}
+
+	fclose(fcmd);
+	remove("./web/e5_command.txt");
+}
+
+// 按键事件处理（长按/短按）
+void handle_key_event(int fd, i2c_probe_target *list, int dev_idx, int key_num)
+{
+	if (key_idx < 0)
+		return;
+	// 长按
+	if (s1_key[dev_idx].SW_long[key_num])
+	{
+		s1_key[dev_idx].SW_long[key_num] = false;
+		printf("[长按] 按键 %d\n", key_num);
+		switch (key_num)
+		{
+		case SW1:
+			mode_set = !mode_set;
+			printf("设置模式: %s\n", mode_set ? "开启" : "关闭");
+			break;
+		case SW2:
+			printf("[长按] 按键2：触发语音交互\n");
+			start_voice_interaction(fd, list);
+			break;
+		case SW3: // 休眠时间+
+			if (sleep_time == 1)
+				sleep_time = 3;
+			else if (sleep_time == 3)
+				sleep_time = 5;
+			else if (sleep_time == 5)
+				sleep_time = 10;
+			printf("休眠时间: %d 分钟\n", sleep_time);
+			break;
+		case SW4: // 休眠时间-
+			if (sleep_time == 10)
+				sleep_time = 5;
+			else if (sleep_time == 5)
+				sleep_time = 3;
+			else if (sleep_time == 3)
+				sleep_time = 1;
+			printf("休眠时间: %d 分钟\n", sleep_time);
+			break;
+		case SW5:
+			temperature_set++;
+			printf("温度阈值: %d ℃\n", temperature_set);
+			break;
+		case SW6:
+			temperature_set--;
+			printf("温度阈值: %d ℃\n", temperature_set);
+			break;
+		case SW7:
+			humidity_set++;
+			printf("湿度阈值: %d %%\n", humidity_set);
+			break;
+		case SW8:
+			humidity_set--;
+			printf("湿度阈值: %d %%\n", humidity_set);
+			break;
+		case SW9:
+			light_set += 50;
+			printf("光照阈值: %d lx\n", light_set);
+			break;
+		case SWA:
+			light_set = (light_set >= 50) ? light_set - 50 : 0;
+			printf("光照阈值: %d lx\n", light_set);
+			break;
+		case SWC:
+			break;
+		}
+	}
+	// 短按
+	if (s1_key[dev_idx].SW_short[key_num])
+	{
+		s1_key[dev_idx].SW_short[key_num] = false;
+		printf("[短按] 按键 %d\n", key_num);
+		switch (key_num)
+		{
+		case SW1: // 风扇开/关
+			if (fan_off)
+			{
+				e2_speed_control_all(fd, list, 0);
+				fan_off = 0;
+				printf("风扇关闭\n");
+			}
+			else
+			{
+				if (dang_idx == 0)
+					dang_idx = 1; // 默认20%
+				e2_speed_control_all(fd, list, dang[dang_idx]);
+				fan_off = 1;
+				printf("风扇开启 (档位: %d%%)\n", dang[dang_idx]);
+			}
+			// 用户手动操作风扇，标记为手动覆盖
+			fan_manual_override = 1;
+			break;
+		case SW2: // 风扇档位切换(低->中->高->自动)
+			if (mode_fan == 1)
+			{
+				mode_fan = 0;
+				light_mode = 0;
+				printf("风扇模式: 手动\n");
+			}
+			else
+			{
+				if (dang_idx == 5)
+				{
+					mode_fan = 1;
+					printf("风扇模式: 自动\n");
+					light_mode = 1;
+					printf("灯光模式: 自动\n");
+				}
+				dang_idx = (dang_idx + 1) % 6;
+				if (fan_off)
+					e2_speed_control_all(fd, list, dang[dang_idx]);
+				printf("风扇档位: %d%%\n", dang[dang_idx]);
+			}
+			break;
+		case SW3: // E1显示模式切换
+			mode_display = (mode_display + 1) % 4;
+			printf("0为关闭,1为显示温度,2为显示湿度,3为显示光照\n");
+			printf("显示模式: %d\n", mode_display);
+			break;
+		case SW4: // 场景模式切换
+			// 循环切换 0->1->2->0
+			mode_background = (mode_background + 1) % 3;
+			fan_manual_override = 0; // 场景切换后恢复场景自动控制
+			printf("场景模式: %d\n", mode_background);
+			// 语音播报切换结果
+			if (e5_voice_on)
+			{
+				char msg[128];
+				switch (mode_background)
+				{
+				case 0:
+					snprintf(msg, sizeof(msg), "已切换到工作模式");
+					break;
+				case 1:
+					snprintf(msg, sizeof(msg), "已切换到休闲模式");
+					break;
+				case 2:
+					snprintf(msg, sizeof(msg), "已切换到睡眠模式");
+					break;
+				default:
+					snprintf(msg, sizeof(msg), "已切换到模式 %d", mode_background);
+					break;
+				}
+				tts_speak(msg);
+			}
+			break;
+		case SW5: // 亮度+
+			if (light_mode == 0)
+			{
+				lightness += 10;
+				if (lightness > 100)
+					lightness = 100;
+				printf("亮度: %d%%\n", lightness);
+			}
+			break;
+		case SW6: // 亮度-
+			if (light_mode == 0)
+			{
+				lightness -= 10;
+				if (lightness < 0)
+					lightness = 0;
+				printf("亮度: %d%%\n", lightness);
+			}
+			break;
+		case SW7: // 风扇转速+
+			if (fan_off && dang_idx < 5)
+			{
+				dang_idx++;
+				e2_speed_control_all(fd, list, dang[dang_idx]);
+				printf("风扇档位: %d%%\n", dang[dang_idx]);
+			}
+			fan_manual_override = 1;
+			break;
+		case SW8: // 风扇转速-
+			if (fan_off && dang_idx > 0)
+			{
+				dang_idx--;
+				e2_speed_control_all(fd, list, dang[dang_idx]);
+				printf("风扇档位: %d%%\n", dang[dang_idx]);
+			}
+			fan_manual_override = 1;
+			break;
+		case SW9: // 语音播报当前环境状态
+		{
+			// 睡眠模式完全静音
+			if (mode_background == 2)
+				break;
+			char tbuf[256];
+			snprintf(tbuf, sizeof(tbuf), "当前温度 %.1f摄氏度，湿度 百分之%.1f ，光照 %.0f勒克斯", env.temperature, env.humidity, env.light_intensity);
+			tts_speak(tbuf);
+		}
+		break;
+		case SWA: // 屏幕亮/灭
+			if (mode_display == 0)
+				mode_display = 1;
+			else
+				mode_display = 0;
+			printf("屏幕%s\n", mode_display ? "亮起" : "熄灭");
+			break;
+		case SWC: // 系统重启
+			// 调用安全重启函数
+			system_reboot();
+			break;
+		}
+	}
+}
+
+// 简单的网络连通性检测：尝试连接 Google DNS (8.8.8.8:53)
+static bool check_network_connectivity() {
+    int sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sock < 0) return false;
+
+    struct sockaddr_in addr;
+    memset(&addr, 0, sizeof(addr));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(53);
+    inet_pton(AF_INET, "8.8.8.8", &addr.sin_addr);
+
+    int ret = connect(sock, (struct sockaddr*)&addr, sizeof(addr));
+    close(sock);
+    return (ret == 0);
+}
+
+// 后台网络检测线程，每30秒更新一次全局标志
+static void* network_monitor_thread(void* arg) {
+    (void)arg;
+    while (1) {
+        bool current = check_network_connectivity();
+        pthread_mutex_lock(&network_mutex);
+        network_available = current;
+        pthread_mutex_unlock(&network_mutex);
+        printf("[网络] %s\n", current ? "在线" : "离线");
+        sleep(30);
+    }
+    return NULL;
+}
+
+bool is_network_available() {
+    pthread_mutex_lock(&network_mutex);
+    bool ret = network_available;
+    pthread_mutex_unlock(&network_mutex);
+    return ret;
+}
+
+// ========== 主函数 ==========
+int main()
+{
+	// 为 I2C 探测列表分配可修改的副本
+	size_t list_size = sizeof(i2c_probe_target) * I2C_PROBE_LIST_LEN;
+	i2c_probe_target *list = (i2c_probe_target *)malloc(list_size);
+	if (!list)
+	{
+		perror("malloc failed");
+		return -1;
+	}
+	memcpy(list, I2C_PROBE_LIST, list_size);
+
+	printf("========================================\n");
+	printf("  桌面智能管家系统   \n");
+	printf("========================================\n\n");
+
+	// 1. 探测所有I2C设备
+	printf("[1/6] I2C设备探测中...\n");
+	i2c_probe(list, I2C_PROBE_LIST_LEN);
+	printf("探测完成\n\n");
+
+	// 2. 查找各模块（若缺失会exit，请确保硬件齐全）
+	printf("[2/6] 查找各模块...\n");
+	I2c_s1_find(list);
+	I2c_s2_find(list);
+	I2c_s7_find(list);
+	I2c_s8_find(list);
+	I2c_e1_led_find(list);
+	I2c_e1_tube_find(list);
+	I2c_e2_find(list);
+	printf("所有模块已找到\n\n");
+
+	// 3. 打开I2C设备（使用S1所在总线）
+	int fd = I2c_open(list[key_idx].path);
+	if (fd < 0)
+	{
+		perror("打开I2C设备失败");
+		free(list);
+		return -1;
+	}
+	printf("I2C设备已打开，fd=%d\n\n", fd);
+
+	// 4. 初始化各模块
+	printf("[3/6] 初始化S1键盘...\n");
+	I2c_s1_init_all(fd, list);
+	printf("[4/6] 初始化E1数码管与RGB灯...\n");
+	I2c_e1_tube_init_all(fd, list);
+	I2c_e1_led_init_all(fd, list);
+	printf("[5/6] 初始化E2风扇...\n");
+	I2c_e2_init_all(fd, list);
+	printf("[6/6] 初始化传感器...\n");
+	I2c_s2_init_all(fd, list);
+	I2c_s7_init_all(fd, list);
+	// S8无需显式初始化
+	printf("\n所有模块初始化完成！开始运行...\n\n");
+
+	// 环境数据初始值
+	memset(&env, 0, sizeof(env));
+	env.temperature = 25.0;
+	env.humidity = 50.0;
+	env.light_intensity = 300.0;
+	env.human_detected = 1;
+
+	// 启动后台音频播放线程（用于 E4）
+	if (pthread_create(&audio_thread_id, NULL, audio_thread, NULL) != 0)
+	{
+		perror("创建音频线程失败");
+	}
+
+	// 启动网络监控线程
+    if (pthread_create(&network_thread_id, NULL, network_monitor_thread, NULL) != 0) 
+	{
+        perror("创建网络检测线程失败");
+    }
+
+	int loop_cnt = 0;
+	int sht_delay = 0; // 用于控制SHT3x读取频率(每2秒一次)
+
+	while (1)
+	{
+		loop_cnt++;
+		sht_delay++;
+
+		// 采集S8温湿度(每2秒一次，避免I2C过载)
+		if (sht_delay >= 40)
+		{ // 50ms * 40 = 2秒
+			sht_delay = 0;
+			if (sht_idx >= 0 && list[sht_idx].detected_count > 0)
+			{
+				s8_para sht = read_sht3x(fd, list[sht_idx].detected_addrs[0]);
+				if (sht.temperature >= -45 && sht.temperature <= 125)
+					env.temperature = sht.temperature;
+				if (sht.humidity >= 0 && sht.humidity <= 100)
+					env.humidity = sht.humidity;
+			}
+		}
+		// 采集S2光照
+		if (bright_idx >= 0 && list[bright_idx].detected_count > 0)
+		{
+			float lux = s2_read_bh1750_value(fd, list[bright_idx].detected_addrs[0]);
+			if (lux >= 0 && lux < 100000)
+				env.light_intensity = lux;
+		}
+		// 采集S7人体
+		if (human_idx >= 0 && list[human_idx].detected_count > 0)
+		{
+			env.human_detected = I2c_human_detected(fd, list[human_idx].detected_addrs[0]);
+		}
+		env.timestamp = time(NULL);
+
+		// 智能联动控制
+		smart_control(fd, list);
+		// 更新E1显示和LED
+		update_e1_display(fd, list);
+		update_e1_led(fd, list);
+		// 同步到 E5 触控屏显示
+		update_e5_display(fd, list);
+
+		// 检查来自 E5 的命令文件（web/e5_command.txt）并处理
+		process_e5_command(fd, list);
+
+		// 按键处理
+		if (key_idx >= 0)
+		{
+			for (int i = 0; i < list[key_idx].detected_count; i++)
+			{
+				// 扫描按键状态
+				process_keys(fd, list[key_idx].detected_addrs[i], list);
+				// 处理所有12个按键的事件
+				for (int k = 1; k <= 12; k++)
+				{
+					handle_key_event(fd, list, i, k);
+				}
+			}
+		}
+
+		// 每100次循环(约5秒)打印一次状态
+		if (loop_cnt % 100 == 0)
+		{
+			print_system_status();
+		}
+
+		// 提高响应速度：50ms 循环一次
+		usleep(50000); // 50ms
+	}
+
+	I2c_close(fd);
+	free(list);
+	return 0;
+}
+
+// 安全重启：先 sync，再尝试 reboot syscall，失败时回退到 system("reboot")
+void system_reboot(void)
+{
+	printf("开始重启系统...\n");
+	fflush(stdout);
+	sync();
+	if (reboot(RB_AUTOBOOT) != 0)
+	{
+		perror("reboot syscall 失败，尝试使用 reboot 命令");
+		int r = system("reboot");
+		if (r == -1)
+			perror("system reboot 失败");
+	}
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\s1.cpp
+#include "s1.h"
+
+int key_idx=-1;
+s1_key_process *s1_key=NULL;
+/*********************************************************************************************************
+函数名:     I2c_s1_find
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/14
+调用描述:   检测S1设备是否存在，存在则显示S1设备地址个数与标号
+**********************************************************************************************************/
+void I2c_s1_find(i2c_probe_target *list)
+{
+	key_idx = i2c_device_idx("S1_KEYS");
+	if((key_idx<0)||(list[key_idx].no<0)||(!list[key_idx].detected_count)){
+		perror("未探测到S1设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到S1设备个数为:%d\n",list[key_idx].detected_count);
+		s1_key=(s1_key_process *)malloc(list[key_idx].detected_count*sizeof(s1_key_process ));
+		for(int i=0;i<list[key_idx].detected_count;i++){
+			printf("检测到的一个S1地址为0x%02x,标号为%d\n",list[key_idx].detected_addrs[i],i);
+			s1_key[i].addr=list[key_idx].detected_addrs[i];
+		}
+	}
+	
+}
+/*********************************************************************************************************
+函数名:     I2c_s1_init
+入口参数:   fd  i2c文件描述符		addr S1的i2c地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/14
+调用描述:   初始化S1子板
+**********************************************************************************************************/
+void I2c_s1_init(int fd, unsigned char addr)
+{
+    	I2c_write_cmd(fd, addr, 0xA0);
+	I2c_write_reg(fd, addr, 0x02, 0x00);
+	I2c_write_reg(fd, addr, 0x03, 0x00);
+	I2c_write_reg(fd, addr, 0x04, 0x00);
+	I2c_write_reg(fd, addr, 0x05, 0x00);
+	I2c_write_reg(fd, addr, 0x06, 0x00);
+	I2c_write_reg(fd, addr, 0x07, 0x00);
+	I2c_write_reg(fd, addr, 0x08, 0x00);
+	I2c_write_reg(fd, addr, 0x09, 0x00);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_s1_init_all
+入口参数:   fd  i2c文件描述符		list 设备表地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   初始化所有S1子板
+**********************************************************************************************************/
+void I2c_s1_init_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[key_idx].detected_count;i++){
+		I2c_s1_init(fd,list[key_idx].detected_addrs[i]);
+	}
+}
+
+/*********************************************************************************************
+函数名:      s1_key_scan
+入口参数:    fd  i2c文件描述符		addr S1的i2c地址
+出口参数:    无
+返回值：           返回按键扫描键值
+作者：                LJY
+日期:        2025/8/14
+调用描述:    调用此函数,得到键值
+**********************************************************************************************/
+unsigned char s1_key_scan(int fd,unsigned char addr)
+{
+	unsigned char key_value;
+	unsigned char keyvalue[6];
+	I2c_read_regs(fd,addr,HT16K33_KEY_KS0,keyvalue,HT16K33_KEY_REG_NUM);
+	if(keyvalue[0]&0x01)
+	{
+		key_value = SW1;
+	}	
+	else if(keyvalue[2]&0x01)
+	{	
+		key_value = SW2;	 
+	}
+	else if(keyvalue[4]&0x01)
+	{
+		key_value = SW3;
+	}	
+	else if(keyvalue[0]&0x02)
+	{
+		key_value = SW4;
+	}	
+	else if(keyvalue[2]&0x02)
+	{
+		key_value = SW5; 
+	}	
+	else if(keyvalue[4]&0x02)
+	{
+		key_value = SW6; 
+	}
+	else if(keyvalue[0]&0x04)
+	{
+		key_value = SW7;
+	}
+	else if(keyvalue[2]&0x04)
+	{
+		key_value = SW8;
+	}
+	else if(keyvalue[4]&0x04)
+	{
+		key_value = SW9;
+	}
+	else if(keyvalue[0]&0x08)
+	{
+		key_value = SWA;
+	}
+	else if(keyvalue[2]&0x08)
+	{
+		key_value = SW0;
+	}
+	else if(keyvalue[4]&0x08)
+	{
+		key_value = SWC;
+	}	
+	else 
+	{
+		key_value = SWN;
+	}	
+
+	return  key_value;		
+}
+
+/*********************************************************************************************
+函数名:      get_timestamp
+入口参数:    无
+出口参数:    无
+返回值：           时间戳毫秒
+作者：                LJY
+日期:        2025/8/14
+调用描述:    获取时间戳
+**********************************************************************************************/
+uint64_t get_timestamp(void) {
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (uint64_t)ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+}
+
+/*********************************************************************************************
+函数名:      process_keys
+入口参数:    fd  i2c文件描述符		addr S1的i2c地址
+	     list 设备表地址
+出口参数:    无
+返回值：           无
+作者：                LJY
+日期:        2025/8/14
+调用描述:    单个S1确认是按键事件是长按还是短按
+**********************************************************************************************/
+void process_keys(int fd,unsigned char addr,i2c_probe_target *list) {
+	int i;
+	for(i=0;i<list[key_idx].detected_count;i++){
+		if(s1_key[i].addr==addr)break;
+	}
+	unsigned char key_value = s1_key_scan(fd, addr);
+    	uint64_t current_time = get_timestamp();
+    
+    	switch(s1_key[i].key_state) {
+        	case KEY_NULL:
+           		if(key_value != SWN) {
+               		s1_key[i].key_down_time = current_time;
+                		s1_key[i].key_state = KEY_PRESSED;  // 进入消抖状态
+                		s1_key[i].current_key = key_value;
+                		s1_key[i].key_processed = false;    // 重置处理标志
+            		}
+            	break;
+            
+        	case KEY_PRESSED:
+            	// 消抖检查：持续按下超过消抖时间才算有效按下
+            		if((current_time - s1_key[i].key_down_time) > DEBOUNCE_TIME) {
+                		if(key_value == s1_key[i].current_key) {
+                    			s1_key[i].key_state = KEY_HOLDING;  // 确认有效按下
+                		} 
+                		else {
+                    			s1_key[i].key_state = KEY_NULL;     // 抖动，返回空闲状态
+                		}
+            		}
+            	break;    
+        	case KEY_HOLDING:
+            		if(key_value == SWN) {  // 按键释放
+                		uint64_t press_duration = current_time - s1_key[i].key_down_time;
+                		if(!s1_key[i].key_processed) {
+                    			if(press_duration >= LONG_PRESS_TIME) {
+                        		// 长按处理
+                        			s1_key[i].SW_long[s1_key[i].current_key]=true;
+                    			} 
+                    			if(press_duration<=SHORT_PRESS_TIME){
+                        		// 短按处理
+                        			s1_key[i].SW_short[s1_key[i].current_key]=true;
+                    			}
+                    		s1_key[i].key_processed = true;
+                		}
+                
+                	// 重置状态
+               	s1_key[i].key_state = KEY_NULL;
+                	s1_key[i].current_key = SWN;
+            		}
+            	break;
+    }
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\s2.cpp
+#include "s2.h"
+#include "i2c.h"
+#include <unistd.h>
+
+
+int bright_idx=-1;
+/*********************************************************************************************************
+函数名:     I2c_s2_find
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/12
+调用描述:   检测S2设备是否存在，存在则显示S5设备地址个数与标号
+**********************************************************************************************************/
+void I2c_s2_find(i2c_probe_target *list)
+{
+	bright_idx = i2c_device_idx("S2_BRIGHTNESS");
+	if((bright_idx<0)||(list[bright_idx].no<0)||(!list[bright_idx].detected_count)){
+		perror("未探测到S2设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到S2设备个数为:%d\n",list[bright_idx].detected_count);
+		for(int i=0;i<list[bright_idx].detected_count;i++){
+			printf("检测到的一个S2地址为0x%02x,标号为%d\n",list[bright_idx].detected_addrs[i],i);
+		}
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_s2_init
+入口参数:   fd  i2c文件描述符		addr 光照传感器的i2c地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/12
+调用描述:   初始化S2
+**********************************************************************************************************/
+void I2c_s2_init(int fd, unsigned char addr)
+{
+	I2c_write_cmd(fd, addr, 0x01);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_s2_init_all
+入口参数:   fd  i2c文件描述符		list  设备表地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/12
+调用描述:   初始化所有S2
+**********************************************************************************************************/
+void I2c_s2_init_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[bright_idx].detected_count;i++){
+		I2c_s2_init(fd,list[bright_idx].detected_addrs[i]);
+	}
+}
+
+
+
+/*********************************************************************************************************
+函数名:	    s2_read_bh1750_value
+入口参数:   fd  i2c文件描述符		addr 光照传感器的i2c地址
+出口参数:   无 
+返回值：         ss  光照传感器返回值
+作者:       ljy
+日期:       2025/8/12
+调用描述:   获取光照传感器的光照数值
+**********************************************************************************************************/
+float s2_read_bh1750_value(int fd,unsigned char addr)
+{	
+	uint16_t tmp;
+	uint8_t ss_value[2];
+	float ss;
+	
+     	I2c_write_cmd(fd,addr,0x01);
+	I2c_write_cmd(fd,addr,0x10);
+	usleep(120 * 1000);  // 120毫秒 = 120000微秒
+	I2c_read_regs(fd,addr,0x10,ss_value,sizeof(ss_value));
+	tmp = (ss_value[0]<<8) + ss_value[1];
+	ss = (float)tmp*10/12;
+	
+	return ss;
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\s7.cpp
+#include "s7.h"
+
+int human_idx=-1;
+/*********************************************************************************************************
+函数名:     I2c_s7_find
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   检测S7设备是否存在，存在则显示S7设备地址个数与标号
+**********************************************************************************************************/
+void I2c_s7_find(i2c_probe_target *list)
+{
+	human_idx = i2c_device_idx("S7_HUMAN");
+	if((human_idx<0)||(list[human_idx].no<0)||(!list[human_idx].detected_count)){
+		perror("未探测到S7设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到S7设备个数为:%d\n",list[human_idx].detected_count);
+		for(int i=0;i<list[human_idx].detected_count;i++){
+			printf("检测到的一个S7地址为%04x,标号为%d\n",list[human_idx].detected_addrs[i],i);
+		}
+	}
+}
+
+/*********************************************************************************************************
+函数名:     pca9557_ir_init
+入口参数:   fd  i2c文件描述符		addr S7的i2c地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   初始化pca9557芯片
+**********************************************************************************************************/
+void pca9557_ir_init(int fd, unsigned char addr )
+{
+    I2c_write_reg(fd, addr , PCA9557_POLARITY_INVERSION_REG, 0x00);
+    I2c_write_reg(fd, addr , PCA9557_CONFIG_REG, 0xFF);
+}
+
+/*********************************************************************************************************
+函数名:     I2c_s7_init
+入口参数:   fd  i2c文件描述符		addr S7的i2c地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   初始化S7子板
+**********************************************************************************************************/
+void I2c_s7_init(int fd, unsigned char addr)
+{
+    pca9557_ir_init(fd, addr);
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_s7_init_all
+入口参数:   fd  i2c文件描述符		list 设备表地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   初始化所有S7子板
+**********************************************************************************************************/
+void I2c_s7_init_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[human_idx].detected_count;i++){
+		I2c_s7_init(fd,list[human_idx].detected_addrs[i]);
+	}
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_human_detected
+入口参数:   fd  i2c文件描述符		addr S7的i2c地址
+出口参数:   无 
+返回值：         有人状态返回1,无人状态返回0
+作者:       ljy
+日期:       2025/8/13
+调用描述:   用S7的人体传感器检测是否有人存在
+**********************************************************************************************************/
+unsigned char I2c_human_detected(int fd, unsigned char addr)
+{
+    int ret;
+    unsigned char s_status;
+
+    ret = I2c_read_regs(fd, addr, 0x00, &s_status, 1);
+
+    if (s_status & 0x01)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/*********************************************************************************************************
+函数名:	    I2c_human_detected_all
+入口参数:   fd  i2c文件描述符		list 设备表地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   用S7的人体传感器检测是否有人存在
+**********************************************************************************************************/
+void I2c_human_detected_all(int fd, i2c_probe_target *list)
+{
+	for(int i=0;i<list[human_idx].detected_count;i++){
+		if(I2c_human_detected(fd,list[human_idx].detected_addrs[i])){
+			printf("S7_addr:0x%02x 检测到有人\n",list[human_idx].detected_addrs[i]);
+		}
+		else{
+			printf("S7_addr:0x%02x 检测到无人\n",list[human_idx].detected_addrs[i]);
+		}
+		
+	}
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\src\s8.cpp
+#include "s8.h"
+
+
+
+int sht_idx=-1;
+/*********************************************************************************************************
+函数名:     I2c_s8_find
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   检测S8设备是否存在，存在则显示S8设备地址个数与标号
+**********************************************************************************************************/
+void I2c_s8_find(i2c_probe_target *list)
+{
+	sht_idx = i2c_device_idx("S8_TEMP&HUMIDITY");
+	if((sht_idx<0)||(list[sht_idx].no<0)||(!list[sht_idx].detected_count)){
+		perror("未探测到S8设备");
+		exit(EXIT_FAILURE);
+	}
+	else{
+		printf("检测到S8设备个数为:%d\n",list[sht_idx].detected_count);
+		for(int i=0;i<list[sht_idx].detected_count;i++){
+			printf("检测到的一个S8地址为0x%02x,标号为%d\n",list[sht_idx].detected_addrs[i],i);
+		}
+	}
+}
+
+/*********************************************************************************************************
+函数名:     计算CRC_BYTE
+入口参数:   list  设备表地址
+出口参数:   无
+返回值：         CRC_BYTE 计算结果
+作者:       ljy
+日期:       2025/8/13
+调用描述:   计算CRC_BYTE
+**********************************************************************************************************/
+unsigned char s8_sht3x_crc_cal(uint16_t DAT)
+{
+		unsigned char i,t,temp;
+		unsigned char CRC_BYTE;
+
+		CRC_BYTE = 0xFF;
+		temp = (DAT>>8) & 0xFF;
+
+		for(t = 0; t < 2; t++)
+		{
+				CRC_BYTE ^= temp;
+				for(i = 0;i < 8;i ++)
+				{
+						if(CRC_BYTE & 0x80)
+						{
+							  CRC_BYTE <<= 1;
+							  CRC_BYTE ^= 0x31;
+						}
+						else
+						{
+							  CRC_BYTE <<= 1;
+						}
+				}
+
+				if(t == 0)
+				{
+					  temp = DAT & 0xFF;
+				}
+		}
+
+	  return CRC_BYTE;
+}
+
+/*********************************************************************************************************
+函数名:     read_sht3x
+入口参数:   fd  i2c文件描述符		addr S8的i2c地址
+出口参数:   无
+返回值：         sht_para	温湿度数据
+作者:       ljy
+日期:       2025/8/13
+调用描述:   获取温湿度数据
+**********************************************************************************************************/
+s8_para read_sht3x(int fd,unsigned char addr)
+{
+	uint8_t  th_value[6];
+	s8_para  sht_para;
+	uint16_t tmp;
+	
+    	I2c_write_reg(fd,addr,0x2C,0x0D);
+	usleep(100);
+    	I2c_read_regs(fd,addr,0x00,th_value,6);
+	
+	tmp = (th_value[0]<<8) + th_value[1];
+	if(s8_sht3x_crc_cal(tmp) == th_value[2])
+	{
+		sht_para.temperature = (float)tmp*175/(65536-1)-45;
+	}
+		 
+	tmp = (th_value[3]<<8) + th_value[4];
+	if(s8_sht3x_crc_cal(tmp) == th_value[5])
+	{
+		sht_para.humidity = (float)tmp*100/(65536-1);
+	}
+		 
+	return sht_para;
+}
+
+/*********************************************************************************************************
+函数名:	    read_sht3x_all
+入口参数:   fd  i2c文件描述符		list 设备表地址
+出口参数:   无 
+返回值：         无
+作者:       ljy
+日期:       2025/8/13
+调用描述:   获取所有S8温湿度数据
+**********************************************************************************************************/
+void read_sht3x_all(int fd, i2c_probe_target *list)
+{
+	s8_para s8_value;
+	for(int i=0;i<list[sht_idx].detected_count;i++){
+		s8_value=read_sht3x(fd,list[sht_idx].detected_addrs[i]);
+		printf("s8_addr:0x%02x	   ",list[sht_idx].detected_addrs[i]);
+		printf("temperature = %f   ",s8_value.temperature); 
+	 	printf("humidity = %f\n",s8_value.humidity); 
+	}
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\web\e5_status.json
+{
+  "temperature": 27.4,
+  "humidity": 66.7,
+  "light": 215.0,
+  "human": 1,
+  "fan_on": 0,
+  "fan_level": 40,
+  "temperature_set": 0,
+  "humidity_set": 60,
+  "light_set": 500,
+  "scene": 0,
+  "voice_on": 1,
+  "sleep_time": 1,
+  "display_mode": 2,
+  "brightness": 50,
+  "fan_mode": 1,
+  "light_mode": 0,
+  "idle": 0,
+  "network": 1,
+  "alert": "正常",
+  "last_recognized_text": "现在几点",
+  "last_nlp_intent": "query_time",
+  "voice_history": [
+    {"role":"system","text":"开始语音交互，正在唤醒..."},
+    {"role":"system","text":"语音采集完成，正在识别..."},
+    {"role":"user","text":"今天几号？今天12月16号。"},
+    {"role":"assistant","text":"今天是2026年06月16日"},
+    {"role":"system","text":"开始语音交互，正在唤醒..."},
+    {"role":"system","text":"语音采集完成，正在识别..."},
+    {"role":"user","text":"现在几点"},
+    {"role":"assistant","text":"现在时间 15点45分24秒"}
+  ],
+  "history": {
+    "temp": [25.0, 27.5, 27.5, 27.5, 27.5, 27.4, 27.4, 27.5, 27.5, 27.4, 27.4, 27.5, 27.5, 27.4, 27.4, 27.4, 27.4, 27.4, 27.4, 27.5, 27.5, 27.4, 27.4, 27.4, 27.4, 27.4, 27.4, 27.4, 27.4, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.4, 27.4, 27.4, 27.4, 27.4, 27.4, 27.5, 27.5, 27.5, 27.5, 27.5, 27.5, 27.4, 27.4, 27.4, 27.4],
+    "hum": [50.0, 66.7, 66.7, 66.7, 66.7, 66.9, 66.9, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 67.1, 67.1, 67.0, 67.0, 67.0, 67.0, 67.2, 67.2, 67.2, 67.2, 66.9, 66.9, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.7, 66.7, 66.6, 66.6, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.8, 66.7, 66.7, 66.7, 66.7, 66.7, 66.7, 66.7, 66.7],
+    "lux": [210.8, 210.8, 210.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.8, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0, 215.0]
+  }
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\web\e5_ui.txt
+scene=0
+voice=1
+fan_on=0
+fan_level=40
+
+
+
+E:\xiaomi\22\第五周任务存档\web\index.html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>智能管家 · E5 触控面板</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        /* 页面切换 Tab 样式 */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2a3a4a;
+            padding-bottom: 8px;
+        }
+        .tab-btn {
+            background: #1e2a3a;
+            border: none;
+            border-radius: 30px;
+            padding: 8px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #ccc;
+        }
+        .tab-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>桌面智能管家</h1>
+
+        <!-- Tab 切换按钮 -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="dashboard">仪表盘</button>
+            <button class="tab-btn" data-tab="control">控制中心</button>
+        </div>
+
+        <!-- 仪表盘页面 -->
+        <div id="dashboard" class="tab-content active">
+            <div class="cards">
+                <div class="card"><div class="label">温度</div><div id="temp" class="value">--°C</div></div>
+                <div class="card"><div class="label">湿度</div><div id="hum" class="value">--%</div></div>
+                <div class="card"><div class="label">光照</div><div id="lux" class="value">--lx</div></div>
+                <div class="card"><div class="label">人体</div><div id="human" class="value">--</div></div>
+                <div class="card"><div class="label">风扇</div><div id="fan" class="value">--</div></div>
+                <div class="card"><div class="label">E1 显示</div><div id="e1_mode" class="value">--</div></div>
+                <div class="card"><div class="label">场景</div><div id="scene" class="value">--</div></div>
+                <div class="card"><div class="label">系统状态</div><div id="idle" class="value">--</div></div>
+                <div class="card"><div class="label">网络</div><div id="network" class="value">--</div></div>
+            </div>
+            <div class="chart-card">
+                <h3>环境变化趋势（最近100次）</h3>
+                <canvas id="envChart" width="600" height="250"></canvas>
+            </div>
+            <div class="log">
+                <div class="alert"><strong>告警：</strong><span id="alert">等待更新...</span></div>
+                <details><summary>原始 JSON 数据</summary><pre id="raw">等待更新...</pre></details>
+            </div>
+        </div>
+
+        <!-- 控制中心页面 -->
+        <div id="control" class="tab-content">
+            <div class="control-group-block">
+                <h2>风扇控制</h2>
+                <div class="btn-row">
+                    <button id="fan_on" class="primary">开</button>
+                    <button id="fan_off" class="secondary">关</button>
+                    <button id="fan_mode_toggle" class="mode">风扇模式: 手动</button>
+                </div>
+                <div class="slider-row">
+                    <label>档位: <span id="fan_speed_val">20</span>%</label>
+                    <input type="range" id="fan_speed" min="0" max="100" step="5" value="20">
+                    <button id="fan_set">设置</button>
+                    <button id="fan_speed_up">+20</button>
+                    <button id="fan_speed_down">-20</button>
+                </div>
+            </div>
+            <div class="control-group-block">
+                <h2>E1 灯光</h2>
+                <div class="btn-row">
+                    <button id="light_mode_toggle" class="mode">灯光模式: 手动</button>
+                </div>
+                <div class="slider-row">
+                    <label>RGB 亮度: <span id="brightness_val">50</span>%</label>
+                    <input type="range" id="brightness_slider" min="0" max="100" value="50">
+                    <button id="brightness_set">设置</button>
+                    <button id="brightness_up">+10</button>
+                    <button id="brightness_down">-10</button>
+                </div>
+                <div class="btn-row">
+                    <button data-display="1">显示温度</button>
+                    <button data-display="2">显示湿度</button>
+                    <button data-display="3">显示光照</button>
+                    <button data-display="0">关闭显示</button>
+                </div>
+            </div>
+            <div class="control-group-block">
+                <h2>场景模式</h2>
+                <div class="btn-row">
+                    <button data-scene="0">工作</button>
+                    <button data-scene="1">休闲</button>
+                    <button data-scene="2">睡眠</button>
+                </div>
+            </div>
+            <div class="control-group-block">
+                <h2>语音助手</h2>
+                <div class="btn-row">
+                    <button id="voice_toggle">语音播报 开</button>
+                    <button id="speak_status">播报环境状态</button>
+                    <button id="start_voice">唤醒语音交互</button>
+                </div>
+                <div id="voice_history" class="voice-history">等待语音交互...</div>
+            </div>
+            <div class="control-group-block">
+                <h2>阈值与休眠</h2>
+                <div class="param-row">
+                    <label>温度阈值: <input id="th_temp" type="number" step="1">℃</label>
+                    <button id="set_temp">保存</button>
+                    <label>湿度阈值: <input id="th_hum" type="number" step="5">%</label>
+                    <button id="set_hum">保存</button>
+                    <label>光照阈值: <input id="th_light" type="number" step="50">lx</label>
+                    <button id="set_light">保存</button>
+                </div>
+                <div class="param-row">
+                    <label>无人休眠(分钟): <input id="sleep_time" type="number" min="1" max="10" step="1"></label>
+                    <button id="set_sleep">设置</button>
+                    <button id="reboot_btn" class="danger">系统重启</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内嵌 Tab 切换脚本（确保在任何情况下都有效） -->
+    <script>
+        (function() {
+            // 等待 DOM 完全加载后绑定 Tab 切换
+            function initTabs() {
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+                if (tabBtns.length === 0 || tabContents.length === 0) return;
+                tabBtns.forEach(btn => {
+                    btn.removeEventListener('click', handleTabClick);
+                    btn.addEventListener('click', handleTabClick);
+                });
+                function handleTabClick(e) {
+                    const targetId = this.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === targetId) content.classList.add('active');
+                    });
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTabs);
+            } else {
+                initTabs();
+            }
+        })();
+    </script>
+
+    <!-- 外部 refresh.js 负责数据更新和控制逻辑 -->
+    <script src="refresh.js"></script>
+</body>
+</html>
+
+
+
+E:\xiaomi\22\第五周任务存档\web\refresh.js
+// DOM 元素
+const tempEl = document.getElementById('temp');
+const humEl = document.getElementById('hum');
+const luxEl = document.getElementById('lux');
+const humanEl = document.getElementById('human');
+const fanEl = document.getElementById('fan');
+const e1ModeEl = document.getElementById('e1_mode');
+const sceneEl = document.getElementById('scene');
+const idleEl = document.getElementById('idle');
+const alertSpan = document.getElementById('alert');
+const voiceToggleBtn = document.getElementById('voice_toggle');
+const speakStatusBtn = document.getElementById('speak_status');
+const startVoiceBtn = document.getElementById('start_voice');
+const voiceHistoryEl = document.getElementById('voice_history');
+const fanSpeedSlider = document.getElementById('fan_speed');
+const fanSpeedVal = document.getElementById('fan_speed_val');
+const brightnessSlider = document.getElementById('brightness_slider');
+const brightnessVal = document.getElementById('brightness_val');
+const fanModeBtn = document.getElementById('fan_mode_toggle');
+const lightModeBtn = document.getElementById('light_mode_toggle');
+const thTemp = document.getElementById('th_temp');
+const thHum = document.getElementById('th_hum');
+const thLight = document.getElementById('th_light');
+const sleepInput = document.getElementById('sleep_time');
+const rebootBtn = document.getElementById('reboot_btn');
+const networkEl = document.getElementById('network');
+
+let currentVoiceOn = true;
+let currentFanMode = 0;
+let currentLightMode = 0;
+let chart = null;
+
+// 发送命令
+async function sendCommand(endpoint, payload) {
+    try {
+        const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        if (!res.ok) console.error('命令失败', endpoint);
+        setTimeout(fetchStatus, 300);
+    } catch(e) { console.error(e); }
+}
+
+// 图表初始化
+function initChart() {
+    const ctx = document.getElementById('envChart').getContext('2d');
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [
+            { label: '温度 (°C)', data: [], borderColor: '#ff7c60', tension: 0.2, fill: false },
+            { label: '湿度 (%)', data: [], borderColor: '#5eb3ff', tension: 0.2, fill: false },
+            { label: '光照 (lx/10)', data: [], borderColor: '#f9d371', tension: 0.2, fill: false }
+        ] },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: { legend: { position: 'top', labels: { color: '#ccc' } } },
+            scales: {
+                y: { grid: { color: '#2a3a4a' }, ticks: { color: '#ddd' } },
+                x: { ticks: { color: '#aaa', autoSkip: true, maxTicksLimit: 6 } }
+            }
+        }
+    });
+}
+
+function updateChart(history) {
+    if (!chart) initChart();
+    if (!history || !history.temp) return;
+    chart.data.labels = Array(history.temp.length).fill('');
+    chart.data.datasets[0].data = history.temp;
+    chart.data.datasets[1].data = history.hum;
+    chart.data.datasets[2].data = history.lux.map(v => v / 10);
+    chart.update();
+}
+
+function renderVoiceHistory(items) {
+    if (!voiceHistoryEl) return;
+    if (!items || !items.length) {
+        voiceHistoryEl.innerHTML = '<p>等待语音交互...</p>';
+        return;
+    }
+    voiceHistoryEl.innerHTML = items.map(entry => {
+        let roleClass = '';
+        if (entry.role === 'user') roleClass = 'voice-user';
+        else if (entry.role === 'assistant') roleClass = 'voice-assistant';
+        else roleClass = 'voice-system';
+        return `<div class="voice-entry ${roleClass}"><strong>${escapeHtml(entry.role)}：</strong>${escapeHtml(entry.text)}</div>`;
+    }).join('');
+}
+
+function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+
+async function fetchStatus() {
+    try {
+        const r = await fetch('e5_status.json?t=' + Date.now());
+        if (!r.ok) throw new Error();
+        const data = await r.json();
+
+        tempEl.textContent = data.temperature.toFixed(1) + '°C';
+        humEl.textContent = data.humidity.toFixed(1) + '%';
+        luxEl.textContent = data.light.toFixed(0) + 'lx';
+        humanEl.textContent = data.human ? '有人' : '无人';
+        fanEl.textContent = data.fan_on ? data.fan_level + '%' : '关闭';
+
+        const displayModes = ['关闭', '温度', '湿度', '光照'];
+        e1ModeEl.textContent = displayModes[data.display_mode] || '--';
+        const scenes = ['工作', '休闲', '睡眠'];
+        sceneEl.textContent = scenes[data.scene] || '未知';
+        idleEl.textContent = data.idle ? '待机' : '正常';
+        networkEl.textContent = data.network ? '在线' : '离线';
+        alertSpan.textContent = data.alert || '环境正常';
+
+        currentVoiceOn = !!data.voice_on;
+        voiceToggleBtn.textContent = currentVoiceOn ? '语音播报 开' : '语音播报 关';
+
+        currentFanMode = data.fan_mode ?? 0;
+        fanModeBtn.textContent = currentFanMode ? '风扇模式: 自动' : '风扇模式: 手动';
+        currentLightMode = data.light_mode ?? 0;
+        lightModeBtn.textContent = currentLightMode ? '灯光模式: 自动' : '灯光模式: 手动';
+
+        thTemp.value = data.temperature_set ?? 28;
+        thHum.value = data.humidity_set ?? 60;
+        thLight.value = data.light_set ?? 300;
+        sleepInput.value = data.sleep_time ?? 1;
+
+        brightnessSlider.value = data.brightness ?? 50;
+        brightnessVal.textContent = brightnessSlider.value;
+        fanSpeedSlider.value = data.fan_level ?? 20;
+        fanSpeedVal.textContent = fanSpeedSlider.value;
+
+        if (data.history) updateChart(data.history);
+        renderVoiceHistory(data.voice_history);
+        document.getElementById('raw').textContent = JSON.stringify(data, null, 2);
+    } catch(e) {
+        alertSpan.textContent = '无法连接至智能管家';
+    }
+}
+
+// 启动轮询
+fetchStatus();
+setInterval(fetchStatus, 800);
+
+// 按钮事件绑定（确保 DOM 元素存在）
+document.getElementById('fan_on').onclick = () => sendCommand('/api/fan', { action: 'on', speed: parseInt(fanSpeedSlider.value) });
+document.getElementById('fan_off').onclick = () => sendCommand('/api/fan', { action: 'off' });
+document.getElementById('fan_set').onclick = () => sendCommand('/api/fan', { action: 'set', speed: parseInt(fanSpeedSlider.value) });
+document.getElementById('fan_speed_up').onclick = () => {
+    let v = parseInt(fanSpeedSlider.value) + 20;
+    if (v > 100) v = 100;
+    fanSpeedSlider.value = v;
+    fanSpeedVal.textContent = v;
+    sendCommand('/api/fan', { action: 'set', speed: v });
+};
+document.getElementById('fan_speed_down').onclick = () => {
+    let v = parseInt(fanSpeedSlider.value) - 20;
+    if (v < 0) v = 0;
+    fanSpeedSlider.value = v;
+    fanSpeedVal.textContent = v;
+    sendCommand('/api/fan', { action: 'set', speed: v });
+};
+fanModeBtn.onclick = () => sendCommand('/api/fanmode', { mode: currentFanMode ? 0 : 1 });
+
+brightnessSlider.oninput = () => brightnessVal.textContent = brightnessSlider.value;
+document.getElementById('brightness_set').onclick = () => sendCommand('/api/brightness', { brightness: parseInt(brightnessSlider.value) });
+document.getElementById('brightness_up').onclick = () => {
+    let v = parseInt(brightnessSlider.value) + 10;
+    if (v > 100) v = 100;
+    brightnessSlider.value = v;
+    brightnessVal.textContent = v;
+    sendCommand('/api/brightness', { brightness: v });
+};
+document.getElementById('brightness_down').onclick = () => {
+    let v = parseInt(brightnessSlider.value) - 10;
+    if (v < 0) v = 0;
+    brightnessSlider.value = v;
+    brightnessVal.textContent = v;
+    sendCommand('/api/brightness', { brightness: v });
+};
+lightModeBtn.onclick = () => sendCommand('/api/lightmode', { mode: currentLightMode ? 0 : 1 });
+
+document.querySelectorAll('[data-display]').forEach(btn => {
+    btn.onclick = () => sendCommand('/api/display', { mode: parseInt(btn.dataset.display) });
+});
+document.querySelectorAll('[data-scene]').forEach(btn => {
+    btn.onclick = () => sendCommand('/api/scene', { scene: parseInt(btn.dataset.scene) });
+});
+
+voiceToggleBtn.onclick = () => sendCommand('/api/voice', { action: currentVoiceOn ? 'off' : 'on' });
+speakStatusBtn.onclick = () => sendCommand('/api/speak_status', {});
+startVoiceBtn.onclick = () => sendCommand('/api/voice', { action: 'start' });
+
+document.getElementById('set_temp').onclick = () => sendCommand('/api/threshold', { type: 'temp', value: parseInt(thTemp.value) });
+document.getElementById('set_hum').onclick = () => sendCommand('/api/threshold', { type: 'hum', value: parseInt(thHum.value) });
+document.getElementById('set_light').onclick = () => sendCommand('/api/threshold', { type: 'light', value: parseInt(thLight.value) });
+document.getElementById('set_sleep').onclick = () => sendCommand('/api/sleep', { minutes: parseInt(sleepInput.value) });
+rebootBtn.onclick = () => sendCommand('/api/reboot', {});
+
+
+
+E:\xiaomi\22\第五周任务存档\web\run_server.sh
+#!/bin/sh
+#!/bin/sh
+# 在 web 目录启动一个静态 + 简单 API 服务器（server.py）
+PORT=${1:-8000}
+cd "$(dirname "$0")" || exit 1
+echo "Starting web server with API on http://0.0.0.0:$PORT"
+python3 server.py $PORT
+
+
+
+E:\xiaomi\22\第五周任务存档\web\server.py
+#!/usr/bin/env python3
+import http.server
+import socketserver
+import json
+import urllib.parse
+
+PORT = 8000
+
+def write_command(cmd):
+    with open('e5_command.txt', 'w', encoding='utf-8') as f:
+        f.write(cmd + '\n')
+
+class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_POST(self):
+        length = int(self.headers.get('Content-Length', 0))
+        data = self.rfile.read(length) if length > 0 else b''
+        path = urllib.parse.urlparse(self.path).path
+        try:
+            payload = json.loads(data.decode('utf-8')) if data else {}
+            if path == '/api/fan':
+                action = payload.get('action')
+                speed = payload.get('speed')
+                if action == 'on':
+                    write_command(f'fan=on&value={speed if speed is not None else 20}')
+                elif action == 'off':
+                    write_command('fan=off')
+                elif action == 'set':
+                    write_command(f'fan=set&value={speed if speed is not None else 20}')
+                else:
+                    self.send_error(400)
+                self.send_ok()
+                return
+            elif path == '/api/fanmode':
+                mode = payload.get('mode', 0)
+                write_command(f'fan_mode={mode}')   
+                self.send_ok()
+                return
+            elif path == '/api/display':
+                mode = payload.get('mode', 0)
+                write_command(f'display={mode}')
+                self.send_ok()
+                return
+            elif path == '/api/brightness':
+                brightness = payload.get('brightness', 50)
+                write_command(f'brightness={brightness}')
+                self.send_ok()
+                return
+            elif path == '/api/lightmode':
+                mode = payload.get('mode', 0)
+                write_command(f'light_mode={mode}')
+                self.send_ok()
+                return
+            elif path == '/api/scene':
+                scene = int(payload.get('scene', 0))
+                if scene in (0,1,2):
+                    write_command(f'scene={scene}')
+                self.send_ok()
+                return
+            elif path == '/api/voice':
+                action = payload.get('action')
+                if action == 'start':
+                    write_command('voice=start')
+                elif action in ('on','off'):
+                    write_command(f'voice={action}')
+                else:
+                    self.send_error(400)
+                self.send_ok()
+                return
+            elif path == '/api/speak_status':
+                write_command('speak_status')
+                self.send_ok()
+                return
+            elif path == '/api/threshold':
+                ttype = payload.get('type')
+                value = int(payload.get('value', 0))
+                if ttype in ('temp','hum','light'):
+                    write_command(f'threshold={ttype}&value={value}')
+                self.send_ok()
+                return
+            elif path == '/api/sleep':
+                minutes = int(payload.get('minutes', 1))
+                write_command(f'sleep={minutes}')
+                self.send_ok()
+                return
+            elif path == '/api/reboot':
+                write_command('reboot')
+                self.send_ok()
+                return
+            else:
+                return http.server.SimpleHTTPRequestHandler.do_POST(self)
+        except Exception as e:
+            self.send_error(500, str(e))
+
+    def send_ok(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b'ok')
+
+    def do_GET(self):
+        return http.server.SimpleHTTPRequestHandler.do_GET(self)
+
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) > 1:
+        try:
+            PORT = int(sys.argv[1])
+        except:
+            pass
+    socketserver.TCPServer.allow_reuse_address = True
+    with socketserver.TCPServer(('0.0.0.0', PORT), Handler) as httpd:
+        print(f"Serving at port {PORT}")
+        httpd.serve_forever()
+
+
+
+E:\xiaomi\22\第五周任务存档\web\styles.css
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', 'Microsoft YaHei', system-ui, sans-serif;
+    background: #0b1120;
+    color: #eef5ff;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.card {
+    background: #112131;
+    border-radius: 16px;
+    padding: 12px 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.label {
+    font-size: 14px;
+    color: #9fb3c8;
+    margin-bottom: 6px;
+}
+.value {
+    font-size: 22px;
+    font-weight: bold;
+}
+.chart-card {
+    background: #0a121c;
+    border-radius: 16px;
+    padding: 12px;
+    margin: 20px 0;
+}
+.chart-card h3 {
+    margin-top: 0;
+    font-size: 18px;
+    padding-left: 8px;
+}
+.control-group-block {
+    background: #101a26;
+    border-radius: 20px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+.control-group-block h2 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 12px;
+    border-left: 4px solid #3b82f6;
+    padding-left: 12px;
+}
+.btn-row, .slider-row, .param-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+button {
+    background: #1e2a3a;
+    border: none;
+    border-radius: 40px;
+    padding: 8px 18px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.1s;
+    touch-action: manipulation;
+}
+button:active { transform: scale(0.96); }
+button.primary { background: #2c5f8a; }
+button.secondary { background: #4b5563; }
+button.mode { background: #2d3b4f; border: 1px solid #5f7f9e; }
+button.danger { background: #b91c1c; }
+input[type="range"] { flex: 1; min-width: 150px; }
+input[type="number"] {
+    width: 80px;
+    background: #1e2a36;
+    border: 1px solid #35506b;
+    border-radius: 20px;
+    padding: 6px;
+    color: white;
+    text-align: center;
+}
+.voice-history {
+    background: #07111c;
+    border-radius: 16px;
+    padding: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 13px;
+}
+.voice-entry {
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+}
+.voice-user { background: rgba(59,130,246,0.15); }
+.voice-assistant { background: rgba(16,185,129,0.12); }
+.voice-system { background: rgba(244,158,11,0.12); }
+.log {
+    background: #08121a;
+    border-radius: 16px;
+    padding: 12px;
+    margin-top: 20px;
+}
+.alert {
+    padding: 6px;
+    font-size: 14px;
+    color: #ffaa66;
+}
+details pre {
+    white-space: pre-wrap;
+    font-size: 11px;
+    color: #9aaec9;
+}
+@media (max-width: 700px) {
+    .btn-row, .param-row { justify-content: center; }
+    button { padding: 10px 16px; }
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\web\voice_history.json
+[
+  {"role":"system","text":"开始语音交互，正在唤醒...","timestamp":1781595885},
+  {"role":"system","text":"语音采集完成，正在识别...","timestamp":1781595891},
+  {"role":"user","text":"今天几号？今天12月16号。","timestamp":1781595901},
+  {"role":"assistant","text":"今天是2026年06月16日","timestamp":1781595902},
+  {"role":"system","text":"开始语音交互，正在唤醒...","timestamp":1781595914},
+  {"role":"system","text":"语音采集完成，正在识别...","timestamp":1781595919},
+  {"role":"user","text":"现在几点","timestamp":1781595923},
+  {"role":"assistant","text":"现在时间 15点45分24秒","timestamp":1781595924}
+]
+
+
+
+E:\xiaomi\22\第五周任务存档\web\xiaomi_ai.py
+#!/usr/bin/env python3
+import os
+import sys
+import json
+import time
+import base64
+import re
+import urllib.parse
+import urllib.request
+from urllib import request, parse
+
+CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'xiaomi_config.json')
+DEFAULT_BASE_URL = 'https://api.xiaomimimo.com/v1'
+DEFAULT_MODEL = 'mimo-v2.5'
+SYSTEM_PROMPT = (
+    'You are MiMo, an AI assistant developed by Xiaomi. '
+    'Today is date: Tuesday, December 16, 2025. Your knowledge cutoff date is December 2024.'
+)
+
+
+def load_config():
+    try:
+        with open(CONFIG_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def get_base_url():
+    cfg = load_config()
+    return cfg.get('BASE_URL') or DEFAULT_BASE_URL
+
+
+def get_api_key():
+    cfg = load_config()
+    return cfg.get('API_KEY') or cfg.get('APP_KEY') or os.environ.get('MIMO_API_KEY')
+
+
+def call_api(url, headers, data):
+    req = request.Request(url, data=data, headers=headers)
+    with request.urlopen(req, timeout=60) as resp:
+        body = resp.read()
+        return body.decode('utf-8', errors='ignore')
+
+
+def build_chat_payload(messages, model=None, max_tokens=1024):
+    return json.dumps(
+        {
+            'model': model or DEFAULT_MODEL,
+            'messages': messages,
+            'max_completion_tokens': max_tokens,
+            'temperature': 0.2,
+            'top_p': 0.9,
+            'stream': False,
+        },
+        ensure_ascii=False,
+    ).encode('utf-8')
+
+
+def parse_assistant_text(response_text):
+    try:
+        payload = json.loads(response_text)
+        choices = payload.get('choices', [])
+        if choices:
+            message = choices[0].get('message', {})
+            text = message.get('content', '')
+            return text.strip()
+    except Exception:
+        pass
+    return response_text.strip()
+
+
+def chat_with_audio(audio_path, instruction):
+    if not os.path.exists(audio_path):
+        return json.dumps({'status': 'error', 'text': ''}, ensure_ascii=False)
+
+    with open(audio_path, 'rb') as f:
+        audio_bytes = f.read()
+    audio_b64 = base64.b64encode(audio_bytes).decode('ascii')
+    mime_type = 'audio/wav'
+    audio_data = f'data:{mime_type};base64,{audio_b64}'
+
+    messages = [
+        {'role': 'system', 'content': SYSTEM_PROMPT},
+        {
+            'role': 'user',
+            'content': [
+                {'type': 'input_audio', 'input_audio': {'data': audio_data}},
+                {'type': 'text', 'text': instruction},
+            ],
+        },
+    ]
+
+    url = get_base_url().rstrip('/') + '/chat/completions'
+    api_key = get_api_key()
+    if not api_key:
+        return json.dumps({'status': 'error', 'text': ''}, ensure_ascii=False)
+
+    headers = {
+        'Content-Type': 'application/json',
+        'api-key': api_key,
+    }
+
+    try:
+        result = call_api(url, headers, build_chat_payload(messages))
+        text = parse_assistant_text(result)
+        return json.dumps({'status': 'ok', 'text': text}, ensure_ascii=False)
+    except Exception:
+        return json.dumps({'status': 'error', 'text': ''}, ensure_ascii=False)
+
+
+def get_tts_model():
+    cfg = load_config()
+    return cfg.get('TTS_MODEL') or 'mimo-v2.5-tts'
+
+
+def get_tts_voice():
+    cfg = load_config()
+    return cfg.get('TTS_VOICE') or 'mimo_default'
+
+
+def build_tts_payload(messages, model=None, audio_format='wav', voice=None, max_tokens=1024):
+    return json.dumps(
+        {
+            'model': model or get_tts_model(),
+            'messages': messages,
+            'audio': {
+                'format': audio_format,
+                'voice': voice or get_tts_voice(),
+            },
+            'max_completion_tokens': max_tokens,
+            'temperature': 0.2,
+            'top_p': 0.9,
+            'stream': False,
+        },
+        ensure_ascii=False,
+    ).encode('utf-8')
+
+
+def parse_audio_data(response_text):
+    try:
+        payload = json.loads(response_text)
+        choices = payload.get('choices', [])
+        if choices:
+            message = choices[0].get('message', {})
+            audio = message.get('audio', {})
+            return audio.get('data', '')
+    except Exception:
+        pass
+    return ''
+
+
+def chat_text(text, instruction, model=None):
+    url = get_base_url().rstrip('/') + '/chat/completions'
+    api_key = get_api_key()
+    if not api_key:
+        return ''
+
+    messages = [
+        {'role': 'system', 'content': SYSTEM_PROMPT},
+        {'role': 'user', 'content': f'{instruction}\n用户指令：{text}'},
+    ]
+
+    headers = {
+        'Content-Type': 'application/json',
+        'api-key': api_key,
+    }
+
+    try:
+        result = call_api(url, headers, build_chat_payload(messages, model=model))
+        text = parse_assistant_text(result)
+        return text
+    except Exception:
+        return ''
+
+
+def asr(audio_path):
+    result = chat_with_audio(audio_path, '请将这段音频中的语音内容准确转写为中文文本，仅返回转写结果，不要附加解释。')
+    try:
+        payload = json.loads(result)
+        return payload
+    except Exception:
+        return {'status': 'error', 'text': ''}
+
+
+def nlp(text):
+    """
+    自然语言理解：优先本地关键词匹配（快速可靠），
+    本地无法识别时再尝试云端 API。
+    """
+    text_lower = text.strip().lower()
+
+    # ========== 1. 本地关键词匹配（优先） ==========
+    # --- 灯光控制 ---
+    if '开灯' in text_lower or '打开灯' in text_lower or '点亮' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'light_on', 'slots': ''}, ensure_ascii=False)
+    if '关灯' in text_lower or '关闭灯' in text_lower or '熄灭' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'light_off', 'slots': ''}, ensure_ascii=False)
+
+    # 亮度设置
+    if '变亮' in text_lower or '太暗' in text_lower in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'light_brightness', 'slots': '80'}, ensure_ascii=False)
+    if '变暗' in text_lower or '太亮' in text_lower in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'light_brightness', 'slots': '20'}, ensure_ascii=False)
+    # 颜色设置 没用
+    color_map = {
+        '红': 'red', '红色': 'red',
+        '绿': 'green', '绿色': 'green',
+        '蓝': 'blue', '蓝色': 'blue',
+        '黄': 'yellow', '黄色': 'yellow',
+        '白': 'white', '白色': 'white',
+        '橙': 'orange', '橙色': 'orange',
+        '紫': 'purple', '紫色': 'purple'
+    }
+    for kw, color in color_map.items():
+        if kw in text_lower and ('灯' in text_lower or '颜色' in text_lower):
+            return json.dumps({'status': 'ok', 'intent': 'light_color', 'slots': color}, ensure_ascii=False)
+
+    # --- 风扇控制 ---
+    if '打开风扇' in text_lower or '开风扇' in text_lower or '风扇打开' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'fan_on', 'slots': ''}, ensure_ascii=False)
+    if '关闭风扇' in text_lower or '关风扇' in text_lower or '风扇关闭' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'fan_off', 'slots': ''}, ensure_ascii=False)
+
+    # 数字调速
+    speed_match = re.search(r'(?:风扇|速度)\s*(\d{1,3})', text_lower)
+    if speed_match:
+        val = speed_match.group(1)
+        return json.dumps({'status': 'ok', 'intent': 'fan_speed', 'slots': val}, ensure_ascii=False)
+    if '高速' in text_lower or '大风' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'fan_speed', 'slots': '80'}, ensure_ascii=False)
+    if '中速' in text_lower or '中风' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'fan_speed', 'slots': '50'}, ensure_ascii=False)
+    if '低速' in text_lower or '小风' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'fan_speed', 'slots': '20'}, ensure_ascii=False)
+
+    # --- 环境信息 ---
+    if '温度' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'announce_temperature', 'slots': ''}, ensure_ascii=False)
+    if '湿度' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'announce_humidity', 'slots': ''}, ensure_ascii=False)
+    if '光照' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'announce_lightness', 'slots': ''}, ensure_ascii=False)
+    if '显示模式' in text_lower or '切换显示' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'switch_display', 'slots': ''}, ensure_ascii=False)
+
+    # --- 天气查询（真实天气）---
+    # 匹配模式：北京天气、上海的天气、天气怎么样、今天天气如何等
+    weather_match = re.search(r'([\u4e00-\u9fa5]{2,}?)的?天气', text_lower)
+    if weather_match:
+        city = weather_match.group(1)
+        # 简单过滤掉“今天”、“明天”等词
+        if city in ['今天', '明天', '后天', '天气']:
+            # 没有指定城市，使用默认城市
+            city = ''
+        return json.dumps({'status': 'ok', 'intent': 'real_weather', 'slots': city}, ensure_ascii=False)
+    # 如果没有明确城市，仅说“天气”或“天气怎么样”
+    if '天气' in text_lower and not re.search(r'[如何怎样]', text_lower):
+        return json.dumps({'status': 'ok', 'intent': 'real_weather', 'slots': ''}, ensure_ascii=False)
+    
+    # --- 日期时间 ---
+    if '日期' in text_lower or '几号' in text_lower or '今天几号' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'query_date', 'slots': ''}, ensure_ascii=False)
+    if '时间' in text_lower or '几点' in text_lower or '现在时间' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'query_time', 'slots': ''}, ensure_ascii=False)
+
+    # --- 场景模式改变 ---
+    if '场景模式' in text_lower and '切换' in text_lower:
+        return json.dumps({'status': 'ok', 'intent': 'background_change', 'slots': ''}, ensure_ascii=False)
+    # ========== 2. 云端 API 补充（仅本地未匹配时） ==========
+    api_text = chat_text(
+        text,
+        '请把这条用户指令解析成JSON，只返回JSON对象，格式为 {"intent":"<意图>","slots":"<参数>"}。如果无法识别意图，请返回 {"intent":"","slots":""}。',
+    )
+    if api_text:
+        try:
+            parsed = json.loads(api_text)
+            intent = parsed.get('intent', '')
+            slots = parsed.get('slots', '')
+            if intent:
+                return json.dumps({'status': 'ok', 'intent': intent, 'slots': slots}, ensure_ascii=False)
+        except Exception:
+            pass
+
+    # 完全无法识别
+    return json.dumps({'status': 'ok', 'intent': '', 'slots': ''}, ensure_ascii=False)
+
+def tts(text, output_path):
+    if not text:
+        return json.dumps({'status': 'error', 'text': ''}, ensure_ascii=False)
+
+    url = get_base_url().rstrip('/') + '/chat/completions'
+    api_key = get_api_key()
+    if api_key:
+        messages = [
+            {'role': 'user', 'content': '请用自然、清晰的普通话语气朗读下面的内容。'},
+            {'role': 'assistant', 'content': text},
+        ]
+        headers = {
+            'Content-Type': 'application/json',
+            'api-key': api_key,
+        }
+        try:
+            result = call_api(url, headers, build_tts_payload(messages))
+            audio_data = parse_audio_data(result)
+            if audio_data:
+                audio_bytes = base64.b64decode(audio_data)
+                with open(output_path, 'wb') as f:
+                    f.write(audio_bytes)
+                return json.dumps({'status': 'ok', 'text': text}, ensure_ascii=False)
+        except Exception:
+            pass
+
+    # 本地 TTS 降级
+    try:
+        import subprocess
+        if os.path.exists('/usr/bin/pico2wave'):
+            subprocess.run(['/usr/bin/pico2wave', '-l=zh-CN', '-w', output_path, text], check=True)
+            return json.dumps({'status': 'ok', 'text': text}, ensure_ascii=False)
+        if os.path.exists('/usr/bin/espeak-ng'):
+            subprocess.run(['/usr/bin/espeak-ng', '-v', 'zh', '-w', output_path, text], check=True)
+            return json.dumps({'status': 'ok', 'text': text}, ensure_ascii=False)
+        if os.path.exists('/usr/bin/espeak'):
+            subprocess.run(['/usr/bin/espeak', '-v', 'zh', '-w', output_path, text], check=True)
+            return json.dumps({'status': 'ok', 'text': text}, ensure_ascii=False)
+    except Exception:
+        pass
+    return json.dumps({'status': 'error', 'text': ''}, ensure_ascii=False)
+
+def get_real_weather(city):
+    """
+    通过 wttr.in 获取真实天气，返回格式化的中文天气描述。
+    失败时返回 None。
+    """
+    if not city:
+        cfg = load_config()
+        city = cfg.get('DEFAULT_CITY', '天津')
+    
+    encoded_city = urllib.parse.quote(city)
+    # 使用 | 分隔字段；lang=zh 请求中文
+    url = f"https://wttr.in/{encoded_city}?format=%C|%t|%w|%h&lang=zh"
+    
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'curl/7.68.0'})
+        with urllib.request.urlopen(req, timeout=5) as response:
+            data = response.read().decode('utf-8').strip()
+        
+        # 按 | 分割：天气状况 | 温度 | 风力 | 湿度
+        parts = data.split('|')
+        if len(parts) >= 4:
+            condition = parts[0].strip()
+            temp = parts[1].strip().replace('+', '')
+            wind_raw = parts[2].strip()
+            humidity = parts[3].strip()
+            
+            # 增强的英译中字典，覆盖更全面的天气描述
+            weather_en2zh = {
+                'Mist': '雾', 'Fog': '雾', 'Haze': '霾',
+                'Light Rain': '小雨', 'Light Rain, Mist': '小雨, 雾', 
+                'Rain': '雨', 'Heavy Rain': '大雨', 'Rain, Mist': '雨, 雾',
+                'Partly Cloudy': '多云', 'Cloudy': '多云', 'Overcast': '阴',
+                'Sunny': '晴', 'Clear': '晴', 'Snow': '雪',
+                'Thunderstorm': '雷阵雨', 'Drizzle': '毛毛雨',
+                'Mostly Cloudy': '大部分多云'
+            }
+            
+            # 检查是否需要翻译（不包含中文字符）
+            if not re.search(r'[\u4e00-\u9fff]', condition):
+                # 优先尝试精确匹配
+                if condition in weather_en2zh:
+                    condition = weather_en2zh[condition]
+                else:
+                    # 尝试部分匹配（例如：将 "Light Rain, Mist" 转为 "小雨, 雾"）
+                    translated = condition
+                    for en, zh in weather_en2zh.items():
+                        if en in condition:
+                            translated = translated.replace(en, zh)
+                    condition = translated
+            
+            # 处理风力中的风向箭头
+            arrow_map = {
+                '←': '西风', '↙': '西南风', '↓': '南风', '↘': '东南风',
+                '→': '东风', '↗': '东北风', '↑': '北风', '↖': '西北风'
+            }
+            arrow_match = re.match(r'([←↙↓↘→↗↑↖])(\d+km/h)', wind_raw)
+            if arrow_match:
+                arrow, speed = arrow_match.groups()
+                wind_desc = arrow_map.get(arrow, '') + speed
+            else:
+                wind_desc = wind_raw
+            
+            # 组装自然流畅的播报文本
+            desc = f"{city}天气"
+            if condition:
+                desc += f"，{condition}"
+            desc += f"，温度{temp}"
+            if wind_desc:
+                desc += f"，风力{wind_desc}"
+            if humidity:
+                desc += f"，湿度{humidity}"
+            return desc
+        else:
+            # 格式不符合预期时的降级处理
+            return f"{city}天气：{data}"
+    except Exception as e:
+        print(f"[天气API] 获取失败: {e}")
+        return None
+
+def skill(skill_type):
+    if skill_type == 'weather':
+        prompt = '请回答一条简短的天气查询内容。'
+    elif skill_type == 'schedule':
+        prompt = '请回答一条简短的日程提醒内容。'
+    else:
+        prompt = '请回答一条简短的问题。'
+
+    text = chat_text('', prompt)
+    if text:
+        return json.dumps({'status': 'ok', 'text': text}, ensure_ascii=False)
+
+    # fallback
+    if skill_type == 'weather':
+        return json.dumps({'status': 'ok', 'text': '今天天气晴朗，温度适中，适合外出。'}, ensure_ascii=False)
+    if skill_type == 'schedule':
+        return json.dumps({'status': 'ok', 'text': '您今天下午有一项会议，晚上有锻炼计划。'}, ensure_ascii=False)
+    return json.dumps({'status': 'ok', 'text': '当前技能暂不可用。'}, ensure_ascii=False)
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(json.dumps({'status': 'error', 'text': 'missing command'}, ensure_ascii=False))
+        return
+    cmd = sys.argv[1]
+    if cmd == 'asr' and len(sys.argv) == 3:
+        result = asr(sys.argv[2])
+        print(json.dumps(result, ensure_ascii=False) if isinstance(result, dict) else result)
+    elif cmd == 'nlp' and len(sys.argv) == 3:
+        print(nlp(sys.argv[2]))
+    elif cmd == 'tts' and len(sys.argv) == 4:
+        print(tts(sys.argv[2], sys.argv[3]))
+    elif cmd == 'skill' and len(sys.argv) == 3:
+        print(skill(sys.argv[2]))
+    elif cmd == 'real_weather' and len(sys.argv) == 3:
+        city = sys.argv[2]
+        result = get_real_weather(city)
+        if result:
+            print(json.dumps({'status': 'ok', 'text': result}, ensure_ascii=False))
+        else:
+            # 失败时返回空，让 C++ 降级到原有 AI 生成
+            print(json.dumps({'status': 'error', 'text': ''}, ensure_ascii=False))
+    else:
+        print(json.dumps({'status': 'error', 'text': 'invalid command'}, ensure_ascii=False))
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+E:\xiaomi\22\第五周任务存档\web\xiaomi_config.json
+{
+    "BASE_URL": "https://api.xiaomimimo.com/v1",
+    "API_KEY": "sk-cr6pes2dp6zl1cfmp14zsqyltlv1arpm289c297h1h2d8wt0",
+    "TTS_MODEL": "mimo-v2.5-tts",
+    "TTS_VOICE": "mimo_default",
+    "DEFAULT_CITY": "天津"
+}
+
+
+
+E:\xiaomi\22\第五周任务存档\Makefile
+CC = g++
+CFLAGS = -Wall -O2 -g -I./inc
+LDFLAGS = -lpthread
+
+SRCS = src/i2c.cpp src/i2c_probe.cpp src/s1.cpp src/s2.cpp src/s7.cpp src/s8.cpp src/e1.cpp src/e2.cpp src/e3.cpp src/main.cpp
+OBJS = $(SRCS:.cpp=.o)
+TARGET = smart_hub
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS) $(TARGET)
+
+.PHONY: all clean
+
+

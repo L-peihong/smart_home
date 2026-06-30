@@ -1,0 +1,4 @@
+scene=0
+voice=1
+fan_on=0
+fan_level=0
